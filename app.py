@@ -70,7 +70,7 @@ st.markdown("""
     .header-banner {
         background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 60%, #E0F2FE 100%);
         border-radius: 24px;
-        padding: 24px 20px 16px 20px;
+        padding: 24px 20px 20px 20px;
         text-align: center;
         margin-bottom: 20px;
         box-shadow: 0 6px 20px rgba(56, 189, 248, 0.2);
@@ -94,20 +94,21 @@ st.markdown("""
         margin-bottom: 10px;
     }
 
-    /* メイン画面中央の現在地入力フォームコンテナ */
-    .search-box-label {
+    /* 水色バナー内に入れる入力欄の見出し */
+    .banner-search-label {
         font-size: 1.1rem;
         font-weight: 900;
         color: #0284C7;
-        margin-bottom: 4px;
-        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 6px;
     }
 
-    /* Streamlit標準の入力欄を綺麗に丸角化 */
+    /* 入力フォームデザイン（角丸・白背景） */
     div[data-baseweb="input"] {
         border-radius: 18px !important;
         border: 2px solid #38BDF8 !important;
         box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15) !important;
+        background-color: #FFFFFF !important;
     }
 
     /* 最寄り避難所案内カード */
@@ -273,8 +274,9 @@ st.sidebar.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア＆現在地入力（黒枠部分）
+# 4. メイン表示エリア（水色バナー内に現在地入力フォームを一体化）
 # ---------------------------------------------------------
+# 水色バナーの上半分を描画
 st.markdown(f"""
 <div class="header-banner">
     <div class="banner-title-badge">八王子市 避難ルートナビ</div>
@@ -282,11 +284,11 @@ st.markdown(f"""
     <div>
         {SVG_TOWN_LANDSCAPE}
     </div>
+    <div class="banner-search-label">いまどこにいる？（住所や建物名を入力してね）</div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- 画像の黒枠部分：現在地入力フォーム ---
-st.markdown('<div class="search-box-label">📍 いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
+# 入力フォーム
 user_address = st.text_input("現在地入力フォーム", value="八王子市丹木町1丁目", label_visibility="collapsed")
 
 # ---------------------------------------------------------
