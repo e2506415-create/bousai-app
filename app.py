@@ -11,192 +11,192 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="防災ナビ 避難ルートマップ", page_icon="🏃‍♂️", layout="wide")
 
-# 画像デザイン完全再現CSS
+# 完全再現CSS
 st.markdown("""
     <style>
-    /* 全体背景（パステルブルーのグラデーション） */
+    /* 全体背景（ペールブルーグラデーション） */
     .stApp {
-        background: linear-gradient(180deg, #E2F2F8 0%, #F4F9FB 100%);
-        font-family: 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', 'Yu Gothic', sans-serif;
+        background: linear-gradient(180deg, #E6F3F9 0%, #F4F9FB 100%);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     
     /* サイドバー背景 */
     [data-testid="stSidebar"] {
-        background-color: #EAF4F8 !important;
-        border-right: 1px solid #D5E6ED;
+        background: linear-gradient(180deg, #E8F4F8 0%, #E2F0F6 100%) !important;
+        border-right: 1px solid #D1E5EE;
     }
     
-    /* 左上ロゴエリア (大きな緑の走る人ピクトグラム) */
-    .sidebar-logo-container {
+    /* サイドバーヘッダー */
+    .sidebar-header {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
-    .runner-logo-icon {
-        width: 46px;
-        height: 46px;
+    .sidebar-logo {
         background-color: #00A86B;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
-        box-shadow: 0 4px 10px rgba(0, 168, 107, 0.25);
+        color: white;
+        font-size: 28px;
+        box-shadow: 0 4px 10px rgba(0,168,107,0.2);
     }
-    .logo-text-main {
-        font-size: 1.6rem;
+    .sidebar-title-text {
+        font-size: 1.7rem;
         font-weight: 900;
         color: #1E293B;
         line-height: 1.1;
     }
-    .logo-text-sub {
-        font-size: 0.7rem;
+    .sidebar-sub-text {
+        font-size: 0.75rem;
         color: #64748B;
         margin-top: 3px;
-        line-height: 1.2;
+        font-weight: bold;
     }
     
     /* サイドバー吹き出し */
-    .sidebar-msg-box {
+    .sidebar-footer-msg {
+        margin-top: 60px;
         background-color: #FFFFFF;
-        border-radius: 16px;
-        padding: 14px;
+        border: 2px dashed #7DD3FC;
+        border-radius: 20px;
+        padding: 16px;
         text-align: center;
-        border: 1.5px dashed #38BDF8;
-        margin-top: 40px;
-        font-size: 0.85rem;
         color: #0284C7;
+        font-size: 0.85rem;
         font-weight: bold;
-        position: relative;
+        line-height: 1.4;
     }
     
     /* メインヘッダーバナー */
-    .header-banner {
-        background: #E0F2FE;
-        border-radius: 18px;
-        padding: 16px 20px;
+    .main-header-banner {
+        background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 50%, #E0F2FE 100%);
+        border-radius: 24px;
+        padding: 20px;
         text-align: center;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         border: 2px solid #FFFFFF;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
-    .header-title {
-        color: #E11D48;
-        font-size: 1.35rem;
+    .main-header-title {
+        color: #FF3B30;
+        font-size: 1.4rem;
         font-weight: 900;
-        margin: 0;
+        margin-bottom: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 8px;
     }
-    .header-subtitle {
+    .main-header-sub {
         color: #334155;
-        font-size: 0.95rem;
+        font-size: 1.05rem;
         font-weight: 800;
-        margin-top: 4px;
     }
     
-    /* メイン結果カード（ピンク枠） */
-    .result-card {
+    /* メイン結果カード (ピンク枠グラデーション) */
+    .result-card-container {
         background: #FFFFFF;
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-        border: 2.5px solid #FFD1DC;
+        border-radius: 24px;
+        padding: 24px;
+        border: 3px solid #FFD1DC;
+        box-shadow: 0 8px 20px rgba(255, 182, 193, 0.15);
+        position: relative;
         height: 100%;
     }
-    .result-badge {
+    .result-loc-tag {
         color: #475569;
-        font-size: 0.88rem;
+        font-size: 0.95rem;
         font-weight: bold;
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
     }
-    .result-subhead {
+    .result-guide-text {
         color: #94A3B8;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: bold;
         margin-top: 6px;
     }
-    .destination-box {
+    .result-target-box {
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin: 12px 0 16px 0;
+        gap: 14px;
+        margin: 16px 0;
     }
-    .dest-icon {
+    .result-target-icon {
         background-color: #00A86B;
         color: white;
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.4rem;
-        font-weight: bold;
+        font-size: 1.6rem;
         flex-shrink: 0;
     }
-    .dest-title {
-        font-size: 1.45rem;
+    .result-target-name {
+        font-size: 1.6rem;
         font-weight: 900;
-        color: #1E293B;
-        line-height: 1.2;
+        color: #00A86B;
     }
-    .dest-sub {
-        font-size: 0.85rem;
+    .result-target-sub {
+        font-size: 1.0rem;
         color: #00A86B;
         font-weight: bold;
+        margin-left: 6px;
     }
-    .route-pill {
-        background-color: #ECFDF5;
-        color: #047857;
-        padding: 6px 16px;
+    .result-info-pill {
+        background-color: #E6F4EA;
+        color: #137333;
+        padding: 8px 18px;
         border-radius: 50px;
         font-weight: bold;
+        font-size: 0.9rem;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        font-size: 0.85rem;
-        border: 1px solid #A7F3D0;
+        gap: 8px;
     }
     
-    /* アドバイスカード（黄色枠） */
-    .advice-card {
-        background: #FFFBEB;
-        border-radius: 20px;
-        padding: 18px 20px;
-        border: 2.5px solid #FDE68A;
+    /* ワンポイントカード (黄色枠) */
+    .advice-card-container {
+        background: #FFFDF0;
+        border-radius: 24px;
+        padding: 22px;
+        border: 3px solid #FDE68A;
+        box-shadow: 0 8px 20px rgba(253, 230, 138, 0.2);
         height: 100%;
     }
-    .advice-header {
+    .advice-card-title {
         color: #D97706;
         font-weight: 900;
-        font-size: 1.05rem;
-        margin-bottom: 12px;
+        font-size: 1.15rem;
+        margin-bottom: 16px;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
     }
-    .advice-item {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-        color: #451A03;
+    .advice-card-item {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+        color: #334155;
         line-height: 1.5;
         display: flex;
         align-items: baseline;
-        gap: 6px;
+        gap: 8px;
     }
     
     /* 地図ヘッダー */
-    .map-header {
-        font-size: 1.2rem;
+    .map-section-title {
+        font-size: 1.3rem;
         font-weight: 900;
-        color: #1E293B;
-        margin: 20px 0 10px 0;
+        color: #00A86B;
+        margin: 24px 0 12px 0;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -205,34 +205,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 2. サイドバー（緑の走る人ロゴ＆現在地入力）
+# 2. サイドバー
 # ---------------------------------------------------------
-RUNNER_SVG = """
-<svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13.5 5.5C14.6046 5.5 15.5 4.60457 15.5 3.5C15.5 2.39543 14.6046 1.5 13.5 1.5C12.3954 1.5 11.5 2.39543 11.5 3.5C11.5 4.60457 12.3954 5.5 13.5 5.5Z" fill="white"/>
-    <path d="M19.5 9.5L15 7.5L11.5 11L13.5 15L17.5 13.5V18.5H19.5V12.5L16.5 14L15 10.5L17 9.5H19.5V9.5Z" fill="white"/>
-    <path d="M9.5 8.5L6.5 12.5H9.5L10.5 17.5L6.5 22.5H4.5L8 18L7 13.5L4 15.5V18.5H2V14.5L6.5 11.5L8 8.5H9.5Z" fill="white"/>
-</svg>
-"""
-
-st.sidebar.markdown(f"""
-<div class="sidebar-logo-container">
-    <div class="runner-logo-icon">
-        {RUNNER_SVG}
-    </div>
+st.sidebar.markdown("""
+<div class="sidebar-header">
+    <div class="sidebar-logo">🏃‍♂️</div>
     <div>
-        <div class="logo-text-main">防災ナビ</div>
-        <div class="logo-text-sub">いざという時に、<br>あなたのそばに</div>
+        <div class="sidebar-title-text">防災ナビ</div>
+        <div class="sidebar-sub-text">いざという時に、<br>あなたのそばに</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 st.sidebar.markdown("#### 📍 いまどこにいる？")
 st.sidebar.caption("住所や建物名を入力してね")
-user_address = st.sidebar.text_input("", value="八王子市丹木町1丁目", label_visibility="collapsed")
+user_address = st.sidebar.text_input("現在地入力欄", value="八王子市丹木町1丁目", label_visibility="collapsed")
 
 st.sidebar.markdown("""
-<div class="sidebar-msg-box">
+<div class="sidebar-footer-msg">
     もしもの時も<br>一緒に考えよう！ ＼
 </div>
 """, unsafe_allow_html=True)
@@ -271,11 +261,11 @@ current_coords = get_coords_from_address(user_address)
 
 # 避難所データ
 SHELTERS = [
-    {"name": "創価大学 グラウンド", "sub": "（構内一次避難場所）", "coords": [35.6870, 139.3285], "icon_label": "金"},
-    {"name": "加住小・中学校", "sub": "（指定避難所）", "coords": [35.6828, 139.3361], "icon_label": "校"},
-    {"name": "第一小学校", "sub": "（八王子駅北口側）", "coords": [35.6590, 139.3390], "icon_label": "校"},
-    {"name": "第四小学校", "sub": "（明神町エリア）", "coords": [35.6552, 139.3465], "icon_label": "校"},
-    {"name": "楢原小学校", "sub": "（楢原町エリア）", "coords": [35.6805, 139.3030], "icon_label": "校"}
+    {"name": "創価大学 グラウンド", "sub": "(構内一次避難場所)", "coords": [35.6870, 139.3285]},
+    {"name": "加住小・中学校", "sub": "(指定避難所)", "coords": [35.6828, 139.3361]},
+    {"name": "第一小学校", "sub": "(八王子駅北口側)", "coords": [35.6590, 139.3390]},
+    {"name": "第四小学校", "sub": "(明神町エリア)", "coords": [35.6552, 139.3465]},
+    {"name": "楢原小学校", "sub": "(楢原町エリア)", "coords": [35.6805, 139.3030]}
 ]
 
 nearest_shelter = None
@@ -290,52 +280,51 @@ for shelter in SHELTERS:
 walk_minutes = math.ceil((min_distance / 4.0) * 60)
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア（画像を完全に模倣）
+# 4. メイン表示エリア
 # ---------------------------------------------------------
-# ヘッダーバナー
 st.markdown("""
-<div class="header-banner">
-    <div class="header-title">🌸 八王子市 避難ルートナビ 🥖</div>
-    <div class="header-subtitle">〜 現在地を入れるだけ！一番近くて安全な避難所へ即案内 〜</div>
+<div class="main-header-banner">
+    <div class="main-header-title">📢 八王子市 避難ルートナビ 🌈</div>
+    <div class="main-header-sub">〜 現在地を入れるだけ！一番近くて安全な避難所へ即案内 〜</div>
 </div>
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns([1.2, 0.8])
+col1, col2 = st.columns([1.25, 0.75])
 
 with col1:
     st.markdown(f"""
-    <div class="result-card">
-        <div class="result-badge">📍 現在地：{user_address}</div>
-        <div class="result-subhead">向かうべき最寄りの避難所はこちら！</div>
-        <div class="destination-box">
-            <div class="dest-icon">{nearest_shelter.get('icon_label', '金')}</div>
+    <div class="result-card-container">
+        <div class="result-loc-tag">📍 現在地：{user_address}</div>
+        <div class="result-guide-text">✨ 向かうべき最寄りの避難所はこちら！</div>
+        <div class="result-target-box">
+            <div class="result-target-icon">🏫</div>
             <div>
-                <span class="dest-title">{nearest_shelter['name']}</span>
-                <span class="dest-sub">{nearest_shelter['sub']}</span>
+                <span class="result-target-name">{nearest_shelter['name']}</span>
+                <span class="result-target-sub">{nearest_shelter['sub']}</span>
             </div>
         </div>
         <div>
-            <span class="route-pill">🏃 距離：約 {min_distance:.1f} km / 徒歩約 {walk_minutes} 分</span>
+            <span class="result-info-pill">🏃 距離：約 {min_distance:.1f} km / 徒歩約 {walk_minutes} 分</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
-    <div class="advice-card">
-        <div class="advice-header">🟡 移動時のワンポイント 🥖</div>
-        <div class="advice-item">👟 <span><b>履物</b>：増水時の長靴は危険！スニーカーで。</span></div>
-        <div class="advice-item">🎒 <span><b>荷物</b>：両手が空くようにリュックで移動。</span></div>
-        <div class="advice-item">⚠️ <span><b>移動</b>：水で隠れた側溝や傾斜地に注意！</span></div>
+    <div class="advice-card-container">
+        <div class="advice-card-title">💡 移動時のワンポイント ✨</div>
+        <div class="advice-card-item">👟 <span><b>履物</b>：増水時の長靴は危険！スニーカーで。</span></div>
+        <div class="advice-card-item">🎒 <span><b>荷物</b>：両手が空くようにリュックで移動。</span></div>
+        <div class="advice-card-item">⚠️ <span><b>移動</b>：水で隠れた側溝や傾斜地に注意！</span></div>
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown('<div class="map-header">🏛️ 安全おすすめ避難ルートマップ</div>', unsafe_allow_html=True)
+st.markdown('<div class="map-section-title">🏛️ 安全おすすめ避難ルートマップ</div>', unsafe_allow_html=True)
 
-# Folium地図の作成
+# 地図表示
 m = folium.Map(location=current_coords, zoom_start=15, tiles="OpenStreetMap")
 
-# 現在地（赤ピン）
+# 現在地ピン（赤）
 folium.Marker(
     location=current_coords,
     popup=f"📍 現在地: {user_address}",
@@ -343,7 +332,7 @@ folium.Marker(
     icon=folium.Icon(color="red", icon="info-sign")
 ).add_to(m)
 
-# 最寄り避難所（緑ピン）
+# 避難所ピン（緑）
 folium.Marker(
     location=nearest_shelter["coords"],
     popup=f"🏠 {nearest_shelter['name']}",
@@ -351,7 +340,7 @@ folium.Marker(
     icon=folium.Icon(color="green", icon="home", prefix="fa")
 ).add_to(m)
 
-# ルート点線（青）
+# ルート点線（緑）
 route_coords = [
     current_coords,
     [(current_coords[0] + nearest_shelter["coords"][0])/2 + 0.0005,
@@ -361,11 +350,11 @@ route_coords = [
 
 folium.PolyLine(
     locations=route_coords,
-    color="#0284C7",
+    color="#00A86B",
     weight=5,
     opacity=0.8,
     dash_array="6, 6",
-    tooltip="安全避難ルート"
+    tooltip="避難ルート"
 ).add_to(m)
 
-st_folium(m, width="100%", height=420)
+st_folium(m, width="100%", height=430)
