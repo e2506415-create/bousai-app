@@ -11,7 +11,7 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="八王子市 避難ルートナビ", layout="wide")
 
-# ポップデザインCSS＋丸ゴシックフォント
+# ポップデザインCSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
@@ -57,12 +57,12 @@ st.markdown("""
         background-color: #FFFFFF;
         border: 2px dashed #38BDF8;
         border-radius: 20px;
-        padding: 12px;
+        padding: 14px;
         color: #0284C7;
-        font-size: 0.88rem;
+        font-size: 0.95rem;
         font-weight: 900;
         text-align: center;
-        margin-top: 20px;
+        margin-top: 10px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
 
@@ -70,13 +70,11 @@ st.markdown("""
     .header-banner {
         background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 60%, #E0F2FE 100%);
         border-radius: 24px;
-        padding: 20px;
+        padding: 24px 20px 16px 20px;
         text-align: center;
         margin-bottom: 20px;
         box-shadow: 0 6px 20px rgba(56, 189, 248, 0.2);
         border: 3px solid #FFFFFF;
-        position: relative;
-        overflow: hidden;
     }
     .banner-title-badge {
         display: inline-block;
@@ -85,7 +83,7 @@ st.markdown("""
         border-radius: 30px;
         color: #FF3B30;
         font-weight: 900;
-        font-size: 1.2rem;
+        font-size: 1.25rem;
         box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15);
         margin-bottom: 8px;
     }
@@ -93,6 +91,23 @@ st.markdown("""
         color: #1E293B;
         font-size: 1.1rem;
         font-weight: 900;
+        margin-bottom: 10px;
+    }
+
+    /* メイン画面中央の現在地入力フォームコンテナ */
+    .search-box-label {
+        font-size: 1.1rem;
+        font-weight: 900;
+        color: #0284C7;
+        margin-bottom: 4px;
+        text-align: center;
+    }
+
+    /* Streamlit標準の入力欄を綺麗に丸角化 */
+    div[data-baseweb="input"] {
+        border-radius: 18px !important;
+        border: 2px solid #38BDF8 !important;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15) !important;
     }
 
     /* 最寄り避難所案内カード */
@@ -214,29 +229,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 2. SVGイラスト素材（絵文字ではなくコードによるグラフィック描画）
+# 2. SVGイラスト素材
 # ---------------------------------------------------------
-# ロゴマーク（避難者ピクト）
 SVG_LOGO_ICON = """<svg width="40" height="40" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="24" fill="#00A86B"/><circle cx="50" cy="30" r="10" fill="white"/><path d="M50 45 L35 65 H45 V85 H55 V65 H65 Z" fill="white"/></svg>"""
 
-# 山と街並みの風景イラストSVG（ヘッダー・サイドバー用）
 SVG_TOWN_LANDSCAPE = """
-<svg width="100%" height="60" viewBox="0 0 600 80" preserveAspectRatio="none" fill="none">
-    <!-- 山イラスト -->
-    <path d="M0 80 L80 30 L160 80 Z" fill="#A7F3D0"/>
-    <path d="M100 80 L200 15 L300 80 Z" fill="#6EE7B7"/>
-    <path d="M400 80 L480 35 L560 80 Z" fill="#A7F3D0"/>
-    <!-- 建物・家イラスト -->
-    <rect x="180" y="50" width="25" height="30" fill="#38BDF8" rx="2"/>
-    <polygon points="180,50 192.5,38 205,50" fill="#F43F5E"/>
-    <rect x="230" y="40" width="30" height="40" fill="#FBBF24" rx="3"/>
-    <rect x="330" y="45" width="25" height="35" fill="#818CF8" rx="2"/>
-    <polygon points="330,45 342.5,35 355,45" fill="#10B981"/>
-    <!-- 木イラスト -->
-    <circle cx="150" cy="60" r="12" fill="#34D399"/>
-    <rect x="148" y="70" width="4" height="10" fill="#78350F"/>
-    <circle cx="380" cy="58" r="14" fill="#10B981"/>
-    <rect x="378" y="68" width="4" height="12" fill="#78350F"/>
+<svg width="100%" height="50" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">
+    <path d="M0 70 L80 25 L160 70 Z" fill="#A7F3D0"/>
+    <path d="M100 70 L200 10 L300 70 Z" fill="#6EE7B7"/>
+    <path d="M400 70 L480 30 L560 70 Z" fill="#A7F3D0"/>
+    <rect x="180" y="40" width="25" height="30" fill="#38BDF8" rx="2"/>
+    <polygon points="180,40 192.5,28 205,40" fill="#F43F5E"/>
+    <rect x="230" y="30" width="30" height="40" fill="#FBBF24" rx="3"/>
+    <rect x="330" y="35" width="25" height="35" fill="#818CF8" rx="2"/>
+    <polygon points="330,35 342.5,25 355,35" fill="#10B981"/>
+    <circle cx="150" cy="50" r="12" fill="#34D399"/>
+    <rect x="148" y="60" width="4" height="10" fill="#78350F"/>
+    <circle cx="380" cy="48" r="14" fill="#10B981"/>
+    <rect x="378" y="58" width="4" height="12" fill="#78350F"/>
 </svg>
 """
 
@@ -253,21 +263,34 @@ st.sidebar.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-st.sidebar.markdown("### いまどこにいる？")
-st.sidebar.caption("住所や建物名を入力してね")
-user_address = st.sidebar.text_input("現在地入力", value="八王子市丹木町1丁目", label_visibility="collapsed")
-
 st.sidebar.markdown(f"""
 <div class="sidebar-msg-bubble">
     もしもの時も<br>一緒に考えよう！
 </div>
-<div style="margin-top: 15px;">
+<div style="margin-top: 20px;">
     {SVG_TOWN_LANDSCAPE}
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. 住所・距離計算ロジック
+# 4. メイン表示エリア＆現在地入力（黒枠部分）
+# ---------------------------------------------------------
+st.markdown(f"""
+<div class="header-banner">
+    <div class="banner-title-badge">八王子市 避難ルートナビ</div>
+    <div class="banner-sub-text">〜 現在地を入れるだけ！一番近くて安全な避難所へ即案内 〜</div>
+    <div>
+        {SVG_TOWN_LANDSCAPE}
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# --- 画像の黒枠部分：現在地入力フォーム ---
+st.markdown('<div class="search-box-label">📍 いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
+user_address = st.text_input("現在地入力フォーム", value="八王子市丹木町1丁目", label_visibility="collapsed")
+
+# ---------------------------------------------------------
+# 5. 住所・距離計算ロジック
 # ---------------------------------------------------------
 def get_coords_from_address(address_text):
     default_coords = [35.6881, 139.3275]
@@ -319,18 +342,8 @@ for shelter in SHELTERS:
 walk_minutes = math.ceil((min_distance / 4.0) * 60)
 
 # ---------------------------------------------------------
-# 5. メイン表示エリア
+# 6. カード＆マップ表示エリア
 # ---------------------------------------------------------
-st.markdown(f"""
-<div class="header-banner">
-    <div class="banner-title-badge">八王子市 避難ルートナビ</div>
-    <div class="banner-sub-text">〜 現在地を入れるだけ！一番近くて安全な避難所へ即案内 〜</div>
-    <div style="margin-top: 10px;">
-        {SVG_TOWN_LANDSCAPE}
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
 col1, col2 = st.columns([1.25, 0.75])
 
 with col1:
@@ -394,7 +407,7 @@ folium.PolyLine(
 st_folium(m, width="100%", height=420)
 
 # ---------------------------------------------------------
-# 6. 緊急連絡先エリア
+# 7. 緊急連絡先エリア
 # ---------------------------------------------------------
 st.markdown("""
 <div class="contact-card-box">
