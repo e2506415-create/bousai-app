@@ -11,19 +11,21 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="八王子市 避難ルートナビ", layout="wide")
 
-# デザインCSS（絵文字排除・シンプルデザイン）
+# ポップデザインCSS（絵文字不使用・配色・フォント・角丸・影でポップさを表現）
 st.markdown("""
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
+
     /* 全体背景 */
     .stApp {
-        background: #F8FAFC;
-        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        background: #F0F9FF;
+        font-family: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', "Yu Gothic UI", sans-serif;
     }
     
     /* サイドバー */
     [data-testid="stSidebar"] {
-        background-color: #E2E8F0 !important;
-        border-right: 1px solid #CBD5E1;
+        background: linear-gradient(180deg, #E0F2FE 0%, #BAE6FD 100%) !important;
+        border-right: 3px solid #7DD3FC;
     }
     
     /* 左上ロゴエリア */
@@ -32,128 +34,159 @@ st.markdown("""
         align-items: center;
         gap: 12px;
         margin-bottom: 24px;
+        background: #FFFFFF;
+        padding: 12px 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+        border: 2px solid #38BDF8;
     }
     .sidebar-logo-icon {
-        background-color: #059669;
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
         color: #FFFFFF;
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 900;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         flex-shrink: 0;
+        box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
     }
     .sidebar-logo-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         font-weight: 900;
         color: #0F172A;
         line-height: 1.1;
     }
     .sidebar-logo-sub {
         font-size: 0.75rem;
-        color: #475569;
-        font-weight: bold;
+        color: #0284C7;
+        font-weight: 800;
         margin-top: 2px;
     }
 
     /* メインヘッダーバナー */
     .header-banner {
-        background: #FFFFFF;
-        border-radius: 16px;
-        padding: 20px;
+        background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+        border-radius: 24px;
+        padding: 18px 24px;
         text-align: center;
         margin-bottom: 20px;
-        border: 1px solid #E2E8F0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+        border: 4px solid #FFFFFF;
     }
     .banner-title {
-        color: #0F172A;
+        color: #FFFFFF;
         font-weight: 900;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin: 0;
     }
 
     /* 最寄り避難所案内カード */
     .shelter-card {
         background: #FFFFFF;
-        border-radius: 16px;
-        padding: 20px;
-        border: 2px solid #FBCFE8;
-        box-shadow: 0 4px 12px rgba(244, 114, 182, 0.08);
+        border-radius: 24px;
+        padding: 22px;
+        border: 3px solid #F472B6;
+        box-shadow: 0 8px 20px rgba(244, 114, 182, 0.15);
         height: 100%;
+        position: relative;
     }
-    .loc-tag {
-        color: #334155;
-        font-size: 0.9rem;
-        font-weight: bold;
+    .loc-badge {
+        display: inline-block;
+        background: #F1F5F9;
+        color: #475569;
+        font-size: 0.85rem;
+        font-weight: 800;
+        padding: 4px 12px;
+        border-radius: 12px;
+        margin-bottom: 8px;
     }
     .dest-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: 900;
         color: #059669;
-        margin: 12px 0 4px 0;
+        margin: 6px 0 2px 0;
     }
     .dest-sub {
-        font-size: 0.85rem;
-        color: #059669;
-        font-weight: bold;
+        font-size: 0.9rem;
+        color: #10B981;
+        font-weight: 800;
         margin-bottom: 16px;
     }
     .pill-badge {
         background-color: #ECFDF5;
         color: #047857;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 0.85rem;
+        border: 2px solid #A7F3D0;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-weight: 900;
+        font-size: 0.9rem;
         display: inline-block;
     }
 
     /* 移動ワンポイントカード */
     .point-card {
         background: #FFFBEB;
-        border-radius: 16px;
-        padding: 20px;
-        border: 2px solid #FDE68A;
+        border-radius: 24px;
+        padding: 22px;
+        border: 3px solid #FBBF24;
+        box-shadow: 0 8px 20px rgba(251, 191, 36, 0.15);
         height: 100%;
     }
     .point-card-title {
         color: #D97706;
         font-weight: 900;
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         margin-bottom: 12px;
+        border-bottom: 2px dashed #FDE68A;
+        padding-bottom: 6px;
     }
     .point-card-item {
         font-size: 0.85rem;
         margin-bottom: 10px;
-        color: #334155;
-        line-height: 1.5;
+        color: #451A03;
+        font-weight: 800;
+        line-height: 1.6;
     }
 
     /* 地図セクションタイトル */
     .section-title {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
         font-weight: 900;
         color: #0F172A;
         margin: 24px 0 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .section-title::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 22px;
+        background: #10B981;
+        border-radius: 6px;
     }
 
     /* 緊急電話番号エリア */
     .contact-card-box {
         background: #FFFFFF;
-        border-radius: 16px;
+        border-radius: 24px;
         padding: 20px;
-        border: 1px solid #E2E8F0;
+        border: 3px solid #E2E8F0;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.03);
         margin-top: 24px;
     }
     .contact-card-title {
         text-align: center;
         font-weight: 900;
-        font-size: 1.0rem;
-        color: #0F172A;
+        font-size: 1.05rem;
+        color: #1E293B;
         margin-bottom: 14px;
     }
     .contact-grid-wrap {
@@ -165,16 +198,16 @@ st.markdown("""
     .contact-item-box {
         background: #F8FAFC;
         padding: 12px 8px;
-        border-radius: 12px;
-        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        border: 2px solid #F1F5F9;
     }
     .contact-item-label {
         font-size: 0.75rem;
         color: #64748B;
-        font-weight: bold;
+        font-weight: 800;
     }
     .contact-item-num {
-        font-size: 1.3rem;
+        font-size: 1.35rem;
         font-weight: 900;
         color: #E11D48;
         margin-top: 2px;
@@ -264,7 +297,7 @@ col1, col2 = st.columns([1.2, 0.8])
 with col1:
     st.markdown(f"""
     <div class="shelter-card">
-        <div class="loc-tag">現在地：{user_address}</div>
+        <div class="loc-badge">現在地：{user_address}</div>
         <div class="dest-title">{nearest_shelter['name']}</div>
         <div class="dest-sub">（{nearest_shelter['sub']}）</div>
         <div>
