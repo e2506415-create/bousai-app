@@ -11,7 +11,7 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="八王子市 避難ルートナビ", layout="wide")
 
-# ポップデザインCSS（危険な<div>構造を排除し、安全なスタイルのみ適用）
+# ポップデザインCSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
@@ -66,25 +66,59 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
 
-    /* タイトルバナー */
-    .title-banner {
+    /* 上部バナーパーツのデザイン */
+    .banner-top {
         background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
-        border-radius: 20px;
-        padding: 20px;
+        border-radius: 24px 24px 0 0;
+        padding: 20px 20px 10px 20px;
         text-align: center;
-        margin-bottom: 16px;
-        border: 2px solid #FFFFFF;
-        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+        border-top: 3px solid #FFFFFF;
+        border-left: 3px solid #FFFFFF;
+        border-right: 3px solid #FFFFFF;
     }
-    .title-badge {
+    .banner-title-badge {
         display: inline-block;
         background: #FFFFFF;
         padding: 6px 20px;
         border-radius: 30px;
         color: #FF3B30;
         font-weight: 900;
-        font-size: 1.3rem;
+        font-size: 1.25rem;
         box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15);
+    }
+
+    /* バナー下部の検索カードエリア */
+    .banner-bottom-box {
+        background: #E0F2FE;
+        border-radius: 0 0 24px 24px;
+        padding: 0 20px 20px 20px;
+        border-bottom: 3px solid #FFFFFF;
+        border-left: 3px solid #FFFFFF;
+        border-right: 3px solid #FFFFFF;
+        margin-bottom: 20px;
+        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
+    }
+
+    /* 内側の白い枠 */
+    .inner-white-card {
+        background-color: #FFFFFF;
+        border-radius: 18px;
+        padding: 16px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+    .inner-title-text {
+        font-size: 1.1rem;
+        font-weight: 900;
+        color: #0284C7;
+        margin-bottom: 8px;
+    }
+
+    /* 入力フォームの角丸＆枠線 */
+    div[data-baseweb="input"] {
+        border-radius: 14px !important;
+        border: 2px solid #38BDF8 !important;
+        background-color: #F8FAFC !important;
     }
 
     /* 最寄り避難所案内カード */
@@ -211,7 +245,7 @@ st.markdown("""
 SVG_LOGO_ICON = """<svg width="40" height="40" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="24" fill="#00A86B"/><circle cx="50" cy="30" r="10" fill="white"/><path d="M50 45 L35 65 H45 V85 H55 V65 H65 Z" fill="white"/></svg>"""
 
 SVG_TOWN_LANDSCAPE = """
-<svg width="100%" height="50" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">
+<svg width="100%" height="45" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">
     <path d="M0 70 L80 25 L160 70 Z" fill="#A7F3D0"/>
     <path d="M100 70 L200 10 L300 70 Z" fill="#6EE7B7"/>
     <path d="M400 70 L480 30 L560 70 Z" fill="#A7F3D0"/>
@@ -250,22 +284,31 @@ st.sidebar.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア
+# 4. メイン表示エリア（ヘッダーバナー内に検索欄を配置）
 # ---------------------------------------------------------
-# タイトルバナー（サブ文章は削除済み）
+# バナー上部
 st.markdown(f"""
-<div class="title-banner">
-    <div class="title-badge">八王子市 避難ルートナビ</div>
+<div class="banner-top">
+    <div class="banner-title-badge">八王子市 避難ルートナビ</div>
     <div style="margin-top: 10px;">
         {SVG_TOWN_LANDSCAPE}
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# 安全な検索枠（Streamlitの標準コンテナ機能で白枠を作成）
-with st.container(border=True):
-    st.subheader("いまどこにいる？（住所や建物名を入力してね）")
-    user_address = st.text_input("現在地入力フォーム", value="八王子市丹木町1丁目", label_visibility="collapsed")
+# バナー下部（水色エリアの中に「白いカード」と「入力欄」をぴったり埋め込み）
+st.markdown("""
+<div class="banner-bottom-box">
+    <div class="inner-white-card">
+        <div class="inner-title-text">📍 いまどこにいる？（住所や建物名を入力してね）</div>
+""", unsafe_allow_html=True)
+
+user_address = st.text_input("現在地入力", value="八王子市丹木町1丁目", label_visibility="collapsed")
+
+st.markdown("""
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # 5. 住所・距離計算ロジック
