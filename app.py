@@ -11,7 +11,7 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="防災ナビ 避難ルートマップ", page_icon="🏃‍♂️", layout="wide")
 
-# カスタムCSS（画像のデザインを再現）
+# カスタムCSS（緑の歩く人アイコン・画像再現デザイン）
 st.markdown("""
     <style>
     /* 全体背景 */
@@ -26,26 +26,34 @@ st.markdown("""
         border-right: 1px solid #CDE2E9;
     }
     
-    /* 左上ロゴエリア */
+    /* 左上ロゴエリア (緑の走る人アイコン付き) */
     .sidebar-logo-container {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         margin-bottom: 5px;
     }
-    .logo-icon {
-        font-size: 2.2rem;
+    .runner-logo-icon {
+        width: 42px;
+        height: 42px;
+        background-color: #00A86B;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 168, 107, 0.3);
+        flex-shrink: 0;
     }
     .logo-text-main {
-        font-size: 1.5rem;
+        font-size: 1.55rem;
         font-weight: 900;
-        color: #2C3E50;
+        color: #1E293B;
         line-height: 1.1;
     }
     .logo-text-sub {
         font-size: 0.72rem;
         color: #64748B;
-        margin-top: 2px;
+        margin-top: 3px;
         line-height: 1.2;
     }
     
@@ -101,7 +109,7 @@ st.markdown("""
         margin: 14px 0;
     }
     .dest-icon {
-        background-color: #0D9488;
+        background-color: #00A86B;
         color: white;
         width: 48px;
         height: 48px;
@@ -112,6 +120,7 @@ st.markdown("""
         font-size: 1.5rem;
         font-weight: bold;
         flex-shrink: 0;
+        box-shadow: 0 4px 10px rgba(0, 168, 107, 0.25);
     }
     .dest-title {
         font-size: 1.55rem;
@@ -164,7 +173,7 @@ st.markdown("""
         gap: 8px;
     }
     
-    /* サイドバーイラスト風メッセージ */
+    /* サイドバー吹き出しメッセージ */
     .sidebar-msg-box {
         background-color: #FFFFFF;
         border-radius: 16px;
@@ -209,11 +218,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 2. サイドバー（ロゴ＆現在地入力）
+# 2. サイドバー（緑の歩く人ロゴ＆現在地入力）
 # ---------------------------------------------------------
-st.sidebar.markdown("""
+# 緑のピクトグラム（走る/歩く人）アイコンSVG
+RUNNER_SVG = """
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.5 5.5C14.6046 5.5 15.5 4.60457 15.5 3.5C15.5 2.39543 14.6046 1.5 13.5 1.5C12.3954 1.5 11.5 2.39543 11.5 3.5C11.5 4.60457 12.3954 5.5 13.5 5.5Z" fill="white"/>
+    <path d="M19.5 9.5L15 7.5L11.5 11L13.5 15L17.5 13.5V18.5H19.5V12.5L16.5 14L15 10.5L17 9.5H19.5V9.5Z" fill="white"/>
+    <path d="M9.5 8.5L6.5 12.5H9.5L10.5 17.5L6.5 22.5H4.5L8 18L7 13.5L4 15.5V18.5H2V14.5L6.5 11.5L8 8.5H9.5Z" fill="white"/>
+</svg>
+"""
+
+st.sidebar.markdown(f"""
 <div class="sidebar-logo-container">
-    <div class="logo-icon">🏃‍♂️</div>
+    <div class="runner-logo-icon">
+        {RUNNER_SVG}
+    </div>
     <div>
         <div class="logo-text-main">防災ナビ</div>
         <div class="logo-text-sub">いざという時に、<br>あなたのそばに</div>
