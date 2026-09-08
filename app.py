@@ -66,15 +66,15 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
 
-    /* 上部バナーパーツのデザイン */
-    .banner-top {
+    /* バナー全体の大きな枠構造 */
+    .banner-outer-card {
         background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
-        border-radius: 24px 24px 0 0;
-        padding: 20px 20px 10px 20px;
+        border-radius: 24px;
+        padding: 20px 20px 24px 20px;
         text-align: center;
-        border-top: 3px solid #FFFFFF;
-        border-left: 3px solid #FFFFFF;
-        border-right: 3px solid #FFFFFF;
+        border: 3px solid #FFFFFF;
+        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
+        margin-bottom: 20px;
     }
     .banner-title-badge {
         display: inline-block;
@@ -85,36 +85,26 @@ st.markdown("""
         font-weight: 900;
         font-size: 1.25rem;
         box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15);
+        margin-bottom: 10px;
     }
 
-    /* バナー下部の検索カードエリア */
-    .banner-bottom-box {
-        background: #E0F2FE;
-        border-radius: 0 0 24px 24px;
-        padding: 0 20px 20px 20px;
-        border-bottom: 3px solid #FFFFFF;
-        border-left: 3px solid #FFFFFF;
-        border-right: 3px solid #FFFFFF;
-        margin-bottom: 20px;
-        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
-    }
-
-    /* 内側の白い枠 */
-    .inner-white-card {
+    /* バナー内の白い枠 */
+    .banner-inner-box {
         background-color: #FFFFFF;
         border-radius: 18px;
-        padding: 16px;
+        padding: 16px 20px 20px 20px;
+        margin-top: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         text-align: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
-    .inner-title-text {
-        font-size: 1.1rem;
+    .banner-inner-title {
+        font-size: 1.05rem;
         font-weight: 900;
         color: #0284C7;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
-    /* 入力フォームの角丸＆枠線 */
+    /* 入力フォームデザイン */
     div[data-baseweb="input"] {
         border-radius: 14px !important;
         border: 2px solid #38BDF8 !important;
@@ -284,31 +274,27 @@ st.sidebar.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア（ヘッダーバナー内に検索欄を配置）
+# 4. メイン表示エリア（バナー内に白枠と入力欄をまとめて配置）
 # ---------------------------------------------------------
-# バナー上部
 st.markdown(f"""
-<div class="banner-top">
+<div class="banner-outer-card">
     <div class="banner-title-badge">八王子市 避難ルートナビ</div>
-    <div style="margin-top: 10px;">
+    <div>
         {SVG_TOWN_LANDSCAPE}
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# バナー下部（水色エリアの中に「白いカード」と「入力欄」をぴったり埋め込み）
-st.markdown("""
-<div class="banner-bottom-box">
-    <div class="inner-white-card">
-        <div class="inner-title-text">📍 いまどこにいる？（住所や建物名を入力してね）</div>
-""", unsafe_allow_html=True)
-
-user_address = st.text_input("現在地入力", value="八王子市丹木町1丁目", label_visibility="collapsed")
-
-st.markdown("""
-    </div>
-</div>
-""", unsafe_allow_html=True)
+# 一体型の白いカード内にタイトルと検索フォームを配置
+with st.container():
+    st.markdown("""
+    <div class="banner-inner-box">
+        <div class="banner-inner-title">📍 いまどこにいる？（住所や建物名を入力してね）</div>
+    """, unsafe_allow_html=True)
+    
+    user_address = st.text_input("現在地入力", value="八王子市丹木町1丁目", label_visibility="collapsed")
+    
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # 5. 住所・距離計算ロジック
