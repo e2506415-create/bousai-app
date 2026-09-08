@@ -11,7 +11,7 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="八王子市 避難ルートナビ", layout="wide")
 
-# ポップデザインCSS
+# ポップデザインCSS（危険な<div>構造を排除し、安全なスタイルのみ適用）
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
@@ -66,54 +66,25 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
 
-    /* メインヘッダーバナー全体 */
-    .header-banner {
-        background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 60%, #E0F2FE 100%);
-        border-radius: 24px;
-        padding: 24px 20px 24px 20px;
+    /* タイトルバナー */
+    .title-banner {
+        background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+        border-radius: 20px;
+        padding: 20px;
         text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.2);
-        border: 3px solid #FFFFFF;
+        margin-bottom: 16px;
+        border: 2px solid #FFFFFF;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
     }
-    .banner-title-badge {
+    .title-badge {
         display: inline-block;
         background: #FFFFFF;
         padding: 6px 20px;
         border-radius: 30px;
         color: #FF3B30;
         font-weight: 900;
-        font-size: 1.25rem;
+        font-size: 1.3rem;
         box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15);
-        margin-bottom: 8px;
-    }
-    .banner-sub-text {
-        color: #1E293B;
-        font-size: 1.1rem;
-        font-weight: 900;
-        margin-bottom: 10px;
-    }
-
-    /* 白枠の検索フォームボックス */
-    .search-box-container {
-        background-color: #FFFFFF;
-        border-radius: 20px;
-        padding: 16px 20px;
-        margin-top: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .search-title-text {
-        font-size: 1.1rem;
-        font-weight: 900;
-        color: #0284C7;
-        margin-bottom: 8px;
-    }
-
-    /* 入力フォームデザイン */
-    div[data-baseweb="input"] {
-        border-radius: 14px !important;
-        border: 2px solid #38BDF8 !important;
-        background-color: #F8FAFC !important;
     }
 
     /* 最寄り避難所案内カード */
@@ -279,23 +250,22 @@ st.sidebar.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア（ヘッダーバナー ＋ 白枠入力エリア）
+# 4. メイン表示エリア
 # ---------------------------------------------------------
+# タイトルバナー（サブ文章は削除済み）
 st.markdown(f"""
-<div class="header-banner">
-    <div class="banner-title-badge">八王子市 避難ルートナビ</div>
-    <div class="banner-sub-text">〜 現在地を入れるだけ！一番近くて安全な避難所へ即案内 〜</div>
-    <div>
+<div class="title-banner">
+    <div class="title-badge">八王子市 避難ルートナビ</div>
+    <div style="margin-top: 10px;">
         {SVG_TOWN_LANDSCAPE}
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# 白い枠の中に「いまどこにいる？」と入力ボックスを丸ごと配置
-with st.container():
-    st.markdown('<div class="search-box-container"><div class="search-title-text">いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
-    user_address = st.text_input("現在地入力", value="八王子市丹木町1丁目", label_visibility="collapsed")
-    st.markdown('</div>', unsafe_allow_html=True)
+# 安全な検索枠（Streamlitの標準コンテナ機能で白枠を作成）
+with st.container(border=True):
+    st.subheader("いまどこにいる？（住所や建物名を入力してね）")
+    user_address = st.text_input("現在地入力フォーム", value="八王子市丹木町1丁目", label_visibility="collapsed")
 
 # ---------------------------------------------------------
 # 5. 住所・距離計算ロジック
