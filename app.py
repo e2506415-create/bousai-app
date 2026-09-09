@@ -11,7 +11,7 @@ import math
 # ---------------------------------------------------------
 st.set_page_config(page_title="八王子市 避難ルートナビ", layout="wide")
 
-# ポップデザインCSS（危険な<div>タグを使わずスタイリングのみ適用）
+# ポップデザインCSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');
@@ -66,7 +66,7 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
 
-    /* 上部バナーエリアの枠（Streamlitの標準コンテナを水色枠化） */
+    /* 上部バナーエリア */
     [data-testid="stVerticalBlock"] > div:has(div.banner-marker) {
         background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
         border-radius: 24px;
@@ -188,6 +188,21 @@ st.markdown("""
         margin: 24px 0 12px 0;
     }
 
+    /* リンクボタン風スタイル */
+    .hazard-btn {
+        display: block;
+        background-color: #38BDF8;
+        color: #FFFFFF !important;
+        text-align: center;
+        font-weight: 900;
+        padding: 12px 18px;
+        border-radius: 16px;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+        margin-top: 15px;
+        transition: transform 0.1s;
+    }
+
     /* 緊急電話番号エリア */
     .contact-card-box {
         background: #FFFFFF;
@@ -269,18 +284,19 @@ st.sidebar.markdown(f"""
 <div class="sidebar-msg-bubble">
     もしもの時も<br>一緒に考えよう！
 </div>
+<a href="https://hachioji-city.github.io/hazardmap/" target="_blank" class="hazard-btn">
+    🗺️ 八王子市ハザードマップを見る
+</a>
 <div style="margin-top: 20px;">
     {SVG_TOWN_LANDSCAPE}
 </div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア（純粋なStreamlit構造でバナー内に白い枠と入力欄を配置）
+# 4. メイン表示エリア（住所入力）
 # ---------------------------------------------------------
 with st.container():
     st.markdown('<div class="banner-marker"></div>', unsafe_allow_html=True)
-    
-    # タイトル＆街並みイラスト
     st.markdown(f"""
     <div style="text-align: center;">
         <div class="banner-title-badge">八王子市 避難ルートナビ</div>
@@ -288,14 +304,13 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
     
-    # 白いカード（検索枠）
     with st.container():
         st.markdown('<div class="search-card-marker"></div>', unsafe_allow_html=True)
         st.markdown('<div class="search-title-text">📍 いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
         user_address = st.text_input("現在地入力フォーム", value="八王子市丹木町1丁目", label_visibility="collapsed")
 
 # ---------------------------------------------------------
-# 5. 住所・距離計算ロジック
+# 5. 住所ジオコーディング・道路ルート(OSRM)計算ロジック
 # ---------------------------------------------------------
 def get_coords_from_address(address_text):
     default_coords = [35.6881, 139.3275]
@@ -324,6 +339,28 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
 
+# 道路に沿ったルートの座標群と距離・時間を取得する関数 (OSRM API)
+def get_osrm_route(start_coords, end_coords):
+    try:
+        url = f"http://router.project-osrm.org/route/v1/foot/{start_coords[1]},{start_coords[0]};{end_coords[1]},{end_coords[0]}?overview=full&geometries=geojson"
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=4) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            if data.get('routes'):
+                route = data['routes'][0]
+                geometry = route['geometry']['coordinates']
+                # GeoJSON (lon, lat) から Folium 用 (lat, lon) に変換
+                route_line = [[lat, lon] for lon, lat in geometry]
+                distance_km = route['distance'] / 1000.0
+                duration_min = math.ceil(route['duration'] / 60.0)
+                return route_line, distance_km, duration_min
+    except Exception:
+        pass
+    # フォールバック（直線）
+    dist = calculate_distance(start_coords[0], start_coords[1], end_coords[0], end_coords[1])
+    walk_min = math.ceil((dist / 4.0) * 60)
+    return [start_coords, end_coords], dist, walk_min
+
 current_coords = get_coords_from_address(user_address)
 
 # 避難所リスト
@@ -344,7 +381,8 @@ for shelter in SHELTERS:
         min_distance = dist
         nearest_shelter = shelter
 
-walk_minutes = math.ceil((min_distance / 4.0) * 60)
+# 実際の道路に沿ったルート計算を実行
+route_line, real_dist, real_minutes = get_osrm_route(current_coords, nearest_shelter["coords"])
 
 # ---------------------------------------------------------
 # 6. カード＆マップ表示エリア
@@ -359,7 +397,7 @@ with col1:
         <div class="dest-title">{nearest_shelter['name']}</div>
         <div class="dest-sub">{nearest_shelter['sub']}</div>
         <div>
-            <span class="pill-green-badge">距離：約 {min_distance:.1f} km / 徒歩約 {walk_minutes} 分</span>
+            <span class="pill-green-badge">道路ルート距離：約 {real_dist:.1f} km / 徒歩約 {real_minutes} 分</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -370,11 +408,11 @@ with col2:
         <div class="yellow-card-title">移動時のワンポイント</div>
         <div class="yellow-card-item"><b>履物</b>：増水時の長靴は危険！スニーカーで。</div>
         <div class="yellow-card-item"><b>荷物</b>：両手が空くようにリュックで移動。</div>
-        <div class="yellow-card-item"><b>移動</b>：水で隠れた側溝や傾斜地に注意！</div>
+        <div class="yellow-card-item"><b>ルート</b>：山道や崖の近くを避け道路を通行！</div>
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown('<div class="map-title-bar">安全おすすめ避難ルートマップ</div>', unsafe_allow_html=True)
+st.markdown('<div class="map-title-bar">安全道路避難ルートマップ</div>', unsafe_allow_html=True)
 
 # 地図表示
 m = folium.Map(location=current_coords, zoom_start=15, tiles="OpenStreetMap")
@@ -393,23 +431,26 @@ folium.Marker(
     icon=folium.Icon(color="green")
 ).add_to(m)
 
-route_coords = [
-    current_coords,
-    [(current_coords[0] + nearest_shelter["coords"][0])/2 + 0.0005,
-     (current_coords[1] + nearest_shelter["coords"][1])/2 - 0.0005],
-    nearest_shelter["coords"]
-]
-
+# 道路沿いのルートを描画（緑の太い点線）
 folium.PolyLine(
-    locations=route_coords,
+    locations=route_line,
     color="#00A86B",
-    weight=5,
-    opacity=0.8,
+    weight=6,
+    opacity=0.85,
     dash_array="6, 6",
-    tooltip="避難ルート"
+    tooltip="道路優先ルート"
 ).add_to(m)
 
 st_folium(m, width="100%", height=420)
+
+# 八王子市ハザードマップ確認用リンクエリア
+st.markdown("""
+<div style="margin-top: 15px; text-align: center;">
+    <a href="https://hachioji-city.github.io/hazardmap/" target="_blank" style="color:#0284C7; font-weight:900; text-decoration:underline; font-size:1.05rem;">
+        🔗 浸水・土砂災害リスクを確認できる「八王子市 Web防災ハザードマップ」を開く
+    </a>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # 7. 緊急連絡先エリア
