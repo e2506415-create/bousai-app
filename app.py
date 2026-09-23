@@ -140,7 +140,7 @@ st.markdown("""
     }
     .dest-sub {
         font-size: 0.95rem;
-        color: #00A86B;
+        color: #475569;
         font-weight: 800;
         margin-bottom: 14px;
     }
@@ -195,11 +195,12 @@ st.markdown("""
         color: #FFFFFF !important;
         text-align: center;
         font-weight: 900;
-        padding: 12px 18px;
-        border-radius: 16px;
+        padding: 10px 14px;
+        border-radius: 14px;
         text-decoration: none;
-        box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
-        margin-top: 15px;
+        box-shadow: 0 3px 8px rgba(56, 189, 248, 0.25);
+        margin-top: 10px;
+        font-size: 0.85rem;
     }
 
     /* 緊急電話番号エリア */
@@ -281,11 +282,25 @@ st.sidebar.markdown(f"""
 
 st.sidebar.markdown(f"""
 <div class="sidebar-msg-bubble">
-    もしもの時も<br>一緒に考えよう！
+    リアルタイム情報＆<br>マップをチェック！
 </div>
+
 <a href="https://hachioji-city.github.io/hazardmap/" target="_blank" class="hazard-btn">
     🗺️ 八王子市WEBハザードマップ公式
 </a>
+
+<a href="https://www.jma.go.jp/bosai/kaikotan/#zoom:5/lat:34.034453/lon:135.000000/colordepth:normal/elements:rasrf&slmcs" target="_blank" class="hazard-btn" style="background-color:#0284C7;">
+    🌧️ 気象庁 雨雲の動き・解析雨量
+</a>
+
+<a href="https://www.jma.go.jp/bosai/risk/#zoom:4/lat:35.209722/lon:139.042969/colordepth:normal/elements:land" target="_blank" class="hazard-btn" style="background-color:#0284C7;">
+    ⚠️ 気象庁 キキクル（危険度分布）
+</a>
+
+<a href="https://www.riskma.net/ja/risk-map/@35.496456056584165,135.99975585937503,7z/data=1&subData=0" target="_blank" class="hazard-btn" style="background-color:#0D9488;">
+    🌐 リアルタイム総合リスクマップ (Riskma)
+</a>
+
 <div style="margin-top: 20px;">
     {SVG_TOWN_LANDSCAPE}
 </div>
@@ -359,13 +374,38 @@ def get_osrm_route(start_coords, end_coords):
 
 current_coords = get_coords_from_address(user_address)
 
-# 避難所リスト
+# 八王子市公式一覧資料に基づく避難所リスト（正確な座標・定員データ）
 SHELTERS = [
-    {"name": "創価大学 グラウンド", "sub": "（構内一次避難場所）", "coords": [35.6870, 139.3285]},
-    {"name": "加住小・中学校", "sub": "（指定避難所）", "coords": [35.6828, 139.3361]},
-    {"name": "第一小学校", "sub": "（八王子駅北口側）", "coords": [35.6590, 139.3390]},
-    {"name": "第四小学校", "sub": "（明神町エリア）", "coords": [35.6552, 139.3465]},
-    {"name": "楢原小学校", "sub": "（楢原町エリア）", "coords": [35.6805, 139.3030]}
+    {
+        "name": "創価大学", 
+        "sub": "丹木町1-236 / 広域避難場所", 
+        "coords": [35.6870, 139.3285],
+        "cap": "屋外 192,000㎡"
+    },
+    {
+        "name": "加住小・中学校", 
+        "sub": "加住町1-191 / 指定避難所（最大1,931人収容）", 
+        "coords": [35.6828, 139.3361],
+        "cap": "屋内 2,172㎡"
+    },
+    {
+        "name": "第一小学校", 
+        "sub": "元横山町2-14-3 / 指定避難所（最大1,242人収容）", 
+        "coords": [35.6590, 139.3390],
+        "cap": "屋内 2,561㎡"
+    },
+    {
+        "name": "第四小学校", 
+        "sub": "明神町2-15-1 / 指定避難所（最大1,295人収容）", 
+        "coords": [35.6552, 139.3465],
+        "cap": "屋内 2,671㎡"
+    },
+    {
+        "name": "楢原小学校", 
+        "sub": "楢原町140-4 / 指定避難所（最大1,364人収容）", 
+        "coords": [35.6805, 139.3030],
+        "cap": "屋内 2,818㎡"
+    }
 ]
 
 nearest_shelter = None
@@ -390,7 +430,7 @@ with col1:
         <div class="pink-loc-tag">現在地：{user_address}</div>
         <div class="pink-guide-tag">向かうべき最寄りの避難所はこちら！</div>
         <div class="dest-title">{nearest_shelter['name']}</div>
-        <div class="dest-sub">{nearest_shelter['sub']}</div>
+        <div class="dest-sub">📍 {nearest_shelter['sub']}</div>
         <div>
             <span class="pill-green-badge">道路ルート距離：約 {real_dist:.1f} km / 徒歩約 {real_minutes} 分</span>
         </div>
@@ -407,7 +447,7 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown('<div class="map-title-bar">⚠️ 八王子市 防災ハザードマップ（避難ルート重ね合わせ）</div>', unsafe_allow_html=True)
+st.markdown('<div class="map-title-bar">⚠️ 八王子市 防災ハザードマップ（道路避難ルート重ね合わせ）</div>', unsafe_allow_html=True)
 
 # 地図初期化
 m = folium.Map(location=current_coords, zoom_start=15, tiles="OpenStreetMap")
@@ -440,28 +480,28 @@ folium.Marker(
 # マーカー（避難所）
 folium.Marker(
     location=nearest_shelter["coords"],
-    popup=nearest_shelter['name'],
+    popup=f"{nearest_shelter['name']} ({nearest_shelter['cap']})",
     tooltip=nearest_shelter['name'],
     icon=folium.Icon(color="green", icon="home")
 ).add_to(m)
 
-# 避難道路ルート
+# 道路沿いの避難ルート
 folium.PolyLine(
     locations=route_line,
     color="#00A86B",
     weight=6,
     opacity=0.85,
     dash_array="6, 6",
-    tooltip="おすすめ避難ルート"
+    tooltip="道路優先避難ルート"
 ).add_to(m)
 
-# 右上のレイヤー切り替えコントロール
+# レイヤーコントロール（右上）
 folium.LayerControl(position="topright", collapsed=False).add_to(m)
 
 # 地図レンダリング
 st_folium(m, width="100%", height=450)
 
-# 八王子市公式リンク案内
+# 外部公式リンク案内
 st.markdown("""
 <div style="margin-top: 15px; text-align: center;">
     <a href="https://hachioji-city.github.io/hazardmap/" target="_blank" style="color:#0284C7; font-weight:900; text-decoration:underline; font-size:1.05rem;">
