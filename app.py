@@ -9,7 +9,7 @@ import math
 # ---------------------------------------------------------
 # 1. ページ基本設定
 # ---------------------------------------------------------
-st.set_page_config(page_title="八王子市 防災ハザード＆避難ナビ", layout="wide")
+st.set_page_config(page_title="ハチボー | 八王子市 防災ハザード＆避難ナビ", layout="wide")
 
 # ポップデザインCSS
 st.markdown("""
@@ -40,13 +40,13 @@ st.markdown("""
         border: 2px solid #38BDF8;
     }
     .sidebar-logo-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: 900;
         color: #0F172A;
         line-height: 1.1;
     }
     .sidebar-logo-sub {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         color: #0284C7;
         font-weight: 800;
         margin-top: 2px;
@@ -79,12 +79,18 @@ st.markdown("""
     .banner-title-badge {
         display: inline-block;
         background: #FFFFFF;
-        padding: 6px 20px;
+        padding: 8px 24px;
         border-radius: 30px;
         color: #FF3B30;
         font-weight: 900;
-        font-size: 1.25rem;
+        font-size: 1.6rem;
         box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15);
+        margin-bottom: 6px;
+    }
+    .banner-sub-title {
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #0284C7;
         margin-bottom: 10px;
     }
 
@@ -274,8 +280,8 @@ st.sidebar.markdown(f"""
 <div class="sidebar-logo-wrap">
     {SVG_LOGO_ICON}
     <div>
-        <div class="sidebar-logo-title">防災ナビ</div>
-        <div class="sidebar-logo-sub">いざという時に、あなたのそばに</div>
+        <div class="sidebar-logo-title">ハチボー</div>
+        <div class="sidebar-logo-sub">八王子市 防災ハザード＆避難ナビ</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -309,7 +315,8 @@ with st.container():
     st.markdown('<div class="banner-marker"></div>', unsafe_allow_html=True)
     st.markdown(f"""
     <div style="text-align: center;">
-        <div class="banner-title-badge">八王子市 防災ハザード＆避難ナビ</div>
+        <div class="banner-title-badge">ハチボー</div>
+        <div class="banner-sub-title">八王子市 防災ハザード＆避難ナビ</div>
         <div>{SVG_TOWN_LANDSCAPE}</div>
     </div>
     """, unsafe_allow_html=True)
