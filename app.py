@@ -77,14 +77,16 @@ st.markdown("""
     }
 
     .banner-title-badge {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
         background: #FFFFFF;
         padding: 8px 24px;
         border-radius: 30px;
-        color: #FF3B30;
+        color: #D97706;
         font-weight: 900;
-        font-size: 1.6rem;
-        box-shadow: 0 2px 8px rgba(255, 59, 48, 0.15);
+        font-size: 1.8rem;
+        box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
         margin-bottom: 6px;
     }
     .banner-sub-title {
@@ -252,9 +254,35 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 2. SVGイラスト素材
+# 2. SVGイラスト素材（高尾山ムササビ「ハチボー」全身＆街並み）
 # ---------------------------------------------------------
-SVG_LOGO_ICON = """<svg width="40" height="40" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="24" fill="#00A86B"/><circle cx="50" cy="30" r="10" fill="white"/><path d="M50 45 L35 65 H45 V85 H55 V65 H65 Z" fill="white"/></svg>"""
+SVG_HACHIBO_CHARACTER = """
+<svg width="55" height="55" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 68 62 C 88 58 96 36 82 22 C 72 12 62 24 66 38 Q 70 48 64 62" fill="#D97706" stroke="#B45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 28 55 C 18 62 16 75 24 82 C 32 78 35 70 34 62 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <path d="M 72 55 C 82 62 84 75 76 82 C 68 78 65 70 66 62 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+  <path d="M 33 52 C 33 52 30 78 36 84 C 42 88 58 88 64 84 C 70 78 67 52 67 52 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2.5"/>
+  <ellipse cx="50" cy="70" rx="13" ry="12" fill="#FEF3C7"/>
+  <path d="M 34 60 C 34 60 40 76 50 76 C 60 76 66 60 66 60 C 66 60 58 56 50 56 C 42 56 34 60 34 60 Z" fill="#059669" opacity="0.15"/>
+  <ellipse cx="38" cy="85" rx="6" ry="3.5" fill="#78350F"/>
+  <ellipse cx="62" cy="85" rx="6" ry="3.5" fill="#78350F"/>
+  <circle cx="30" cy="62" r="4" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>
+  <circle cx="70" cy="62" r="4" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>
+  <ellipse cx="50" cy="42" rx="22" ry="18" fill="#F59E0B" stroke="#B45309" stroke-width="2.5"/>
+  <ellipse cx="50" cy="45" rx="16" ry="12" fill="#FEF3C7"/>
+  <circle cx="40" cy="41" r="3.5" fill="#1E293B"/>
+  <circle cx="60" cy="41" r="3.5" fill="#1E293B"/>
+  <circle cx="41" cy="39.5" r="1.2" fill="white"/>
+  <circle cx="61" cy="39.5" r="1.2" fill="white"/>
+  <polygon points="48,44 52,44 50,46" fill="#78350F"/>
+  <path d="M 45 47 Q 50 50 55 47" stroke="#78350F" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <ellipse cx="34" cy="45" rx="3.5" ry="2" fill="#F43F5E" opacity="0.5"/>
+  <ellipse cx="66" cy="45" rx="3.5" ry="2" fill="#F43F5E" opacity="0.5"/>
+  <path d="M 26 32 C 26 12, 74 12, 74 32 Z" fill="#10B981"/>
+  <rect x="22" y="30" width="56" height="5" rx="2.5" fill="#059669"/>
+  <path d="M 50 16 L 51.5 19.5 L 55 18 L 52.8 21.5 L 56 24 L 51.5 23.5 L 50 27 L 48.5 23.5 L 44 24 L 47.2 21.5 L 45 18 L 48.5 19.5 Z" fill="#F59E0B"/>
+</svg>
+"""
 
 SVG_TOWN_LANDSCAPE = """
 <svg width="100%" height="45" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">
@@ -278,7 +306,7 @@ SVG_TOWN_LANDSCAPE = """
 # ---------------------------------------------------------
 st.sidebar.markdown(f"""
 <div class="sidebar-logo-wrap">
-    {SVG_LOGO_ICON}
+    {SVG_HACHIBO_CHARACTER}
     <div>
         <div class="sidebar-logo-title">ハチボー</div>
         <div class="sidebar-logo-sub">八王子市 防災ハザード＆避難ナビ</div>
@@ -288,7 +316,7 @@ st.sidebar.markdown(f"""
 
 st.sidebar.markdown(f"""
 <div class="sidebar-msg-bubble">
-    リアルタイム情報＆<br>マップをチェック！
+    高尾山からみんなをナビするよ！<br>ハザードマップをチェック！
 </div>
 
 <a href="https://hachioji-city.github.io/hazardmap/" target="_blank" class="hazard-btn">
@@ -315,7 +343,10 @@ with st.container():
     st.markdown('<div class="banner-marker"></div>', unsafe_allow_html=True)
     st.markdown(f"""
     <div style="text-align: center;">
-        <div class="banner-title-badge">ハチボー</div>
+        <div class="banner-title-badge">
+            {SVG_HACHIBO_CHARACTER}
+            <span>ハチボー</span>
+        </div>
         <div class="banner-sub-title">八王子市 防災ハザード＆避難ナビ</div>
         <div>{SVG_TOWN_LANDSCAPE}</div>
     </div>
@@ -377,7 +408,7 @@ def get_osrm_route(start_coords, end_coords):
 
 current_coords = get_coords_from_address(user_address)
 
-# 八王子市公式一覧資料に基づく避難所リスト（正確な座標・定員データ）
+# 八王子市公式避難所リスト
 SHELTERS = [
     {
         "name": "創価大学", 
