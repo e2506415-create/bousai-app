@@ -289,16 +289,12 @@ st.sidebar.markdown(f"""
     🗺️ 八王子市WEBハザードマップ公式
 </a>
 
-<a href="https://www.jma.go.jp/bosai/kaikotan/#zoom:5/lat:34.034453/lon:135.000000/colordepth:normal/elements:rasrf&slmcs" target="_blank" class="hazard-btn" style="background-color:#0284C7;">
-    🌧️ 気象庁 雨雲の動き・解析雨量
+<a href="https://hachioji.riskma.jp/#/mobile" target="_blank" class="hazard-btn" style="background-color:#0D9488;">
+    📱 八王子市 Riskma（雨量・河川情報）
 </a>
 
-<a href="https://www.jma.go.jp/bosai/risk/#zoom:4/lat:35.209722/lon:139.042969/colordepth:normal/elements:land" target="_blank" class="hazard-btn" style="background-color:#0284C7;">
-    ⚠️ 気象庁 キキクル（危険度分布）
-</a>
-
-<a href="https://www.riskma.net/ja/risk-map/@35.496456056584165,135.99975585937503,7z/data=1&subData=0" target="_blank" class="hazard-btn" style="background-color:#0D9488;">
-    🌐 リアルタイム総合リスクマップ (Riskma)
+<a href="https://www.jma.go.jp/bosai/kaikotan/#zoom:11/lat:35.658000/lon:139.339000/colordepth:normal/elements:rasrf&slmcs" target="_blank" class="hazard-btn" style="background-color:#0284C7;">
+    🌧️ 気象庁 雨雲の動き（八王子付近）
 </a>
 
 <div style="margin-top: 20px;">
