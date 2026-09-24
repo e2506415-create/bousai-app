@@ -40,7 +40,7 @@ st.markdown("""
         border: 2px solid #38BDF8;
     }
     .sidebar-logo-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         font-weight: 900;
         color: #0F172A;
         line-height: 1.1;
@@ -79,7 +79,7 @@ st.markdown("""
     .banner-title-badge {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         background: #FFFFFF;
         padding: 8px 24px;
         border-radius: 30px;
@@ -254,103 +254,101 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 2. SVGイラスト素材（高尾山ムササビ「ハチボー」全身＆街並み）
+# 2. SVGパーツ（1行にしてバグを完全に修正）
 # ---------------------------------------------------------
-SVG_HACHIBO_CHARACTER = """
-<svg width="55" height="55" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M 68 62 C 88 58 96 36 82 22 C 72 12 62 24 66 38 Q 70 48 64 62" fill="#D97706" stroke="#B45309" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M 28 55 C 18 62 16 75 24 82 C 32 78 35 70 34 62 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
-  <path d="M 72 55 C 82 62 84 75 76 82 C 68 78 65 70 66 62 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
-  <path d="M 33 52 C 33 52 30 78 36 84 C 42 88 58 88 64 84 C 70 78 67 52 67 52 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2.5"/>
-  <ellipse cx="50" cy="70" rx="13" ry="12" fill="#FEF3C7"/>
-  <path d="M 34 60 C 34 60 40 76 50 76 C 60 76 66 60 66 60 C 66 60 58 56 50 56 C 42 56 34 60 34 60 Z" fill="#059669" opacity="0.15"/>
-  <ellipse cx="38" cy="85" rx="6" ry="3.5" fill="#78350F"/>
-  <ellipse cx="62" cy="85" rx="6" ry="3.5" fill="#78350F"/>
-  <circle cx="30" cy="62" r="4" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>
-  <circle cx="70" cy="62" r="4" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>
-  <ellipse cx="50" cy="42" rx="22" ry="18" fill="#F59E0B" stroke="#B45309" stroke-width="2.5"/>
-  <ellipse cx="50" cy="45" rx="16" ry="12" fill="#FEF3C7"/>
-  <circle cx="40" cy="41" r="3.5" fill="#1E293B"/>
-  <circle cx="60" cy="41" r="3.5" fill="#1E293B"/>
-  <circle cx="41" cy="39.5" r="1.2" fill="white"/>
-  <circle cx="61" cy="39.5" r="1.2" fill="white"/>
-  <polygon points="48,44 52,44 50,46" fill="#78350F"/>
-  <path d="M 45 47 Q 50 50 55 47" stroke="#78350F" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <ellipse cx="34" cy="45" rx="3.5" ry="2" fill="#F43F5E" opacity="0.5"/>
-  <ellipse cx="66" cy="45" rx="3.5" ry="2" fill="#F43F5E" opacity="0.5"/>
-  <path d="M 26 32 C 26 12, 74 12, 74 32 Z" fill="#10B981"/>
-  <rect x="22" y="30" width="56" height="5" rx="2.5" fill="#059669"/>
-  <path d="M 50 16 L 51.5 19.5 L 55 18 L 52.8 21.5 L 56 24 L 51.5 23.5 L 50 27 L 48.5 23.5 L 44 24 L 47.2 21.5 L 45 18 L 48.5 19.5 Z" fill="#F59E0B"/>
-</svg>
-"""
+# バランスを整えたムササビ「ハチボー」全身SVG
+SVG_HACHIBO_CHARACTER = (
+    '<svg width="55" height="55" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
+    '<!-- ふっくら尻尾 -->'
+    '<path d="M 68 65 C 88 62 96 38 82 22 C 72 12 62 24 66 38 C 70 48 64 65 Z" fill="#D97706" stroke="#B45309" stroke-width="2"/>'
+    '<!-- ムササビの羽（皮膜） -->'
+    '<path d="M 28 50 C 15 58 12 72 22 80 C 30 75 32 68 32 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="1.8"/>'
+    '<path d="M 72 50 C 85 58 88 72 78 80 C 70 75 68 68 68 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="1.8"/>'
+    '<!-- しっかりした胴体 -->'
+    '<path d="M 33 50 C 33 50 30 76 38 82 C 45 86 55 86 62 82 C 70 76 67 50 67 50 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>'
+    '<!-- 白いおなか -->'
+    '<ellipse cx="50" cy="68" rx="12" ry="10" fill="#FEF3C7"/>'
+    '<!-- 防災ベスト -->'
+    '<path d="M 35 56 Q 50 62 65 56 L 62 76 Q 50 80 38 76 Z" fill="#10B981" opacity="0.8"/>'
+    '<!-- 足 -->'
+    '<ellipse cx="40" cy="83" rx="5" ry="3" fill="#78350F"/>'
+    '<ellipse cx="60" cy="83" rx="5" ry="3" fill="#78350F"/>'
+    '<!-- 手（ポーズ） -->'
+    '<circle cx="30" cy="58" r="3.5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>'
+    '<circle cx="70" cy="58" r="3.5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>'
+    '<!-- 顔 -->'
+    '<ellipse cx="50" cy="38" rx="20" ry="16" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>'
+    '<ellipse cx="50" cy="41" rx="14" ry="10" fill="#FEF3C7"/>'
+    '<!-- つぶらな目 -->'
+    '<circle cx="41" cy="37" r="3" fill="#1E293B"/>'
+    '<circle cx="59" cy="37" r="3" fill="#1E293B"/>'
+    '<circle cx="42" cy="35.5" r="1" fill="white"/>'
+    '<circle cx="60" cy="35.5" r="1" fill="white"/>'
+    '<!-- 鼻と口 -->'
+    '<polygon points="48,40 52,40 50,42" fill="#78350F"/>'
+    '<path d="M 46 43 Q 50 46 54 43" stroke="#78350F" stroke-width="1.5" stroke-linecap="round" fill="none"/>'
+    '<!-- ほっぺ -->'
+    '<ellipse cx="35" cy="41" rx="3" ry="1.8" fill="#F43F5E" opacity="0.5"/>'
+    '<ellipse cx="65" cy="41" rx="3" ry="1.8" fill="#F43F5E" opacity="0.5"/>'
+    '<!-- 防災ヘルメット -->'
+    '<path d="M 28 28 C 28 10, 72 10, 72 28 Z" fill="#10B981"/>'
+    '<rect x="24" y="26" width="52" height="4" rx="2" fill="#059669"/>'
+    '<!-- 高尾山もみじマーク -->'
+    '<path d="M 50 14 L 51.2 17 L 54 15.8 L 52.3 18.7 L 55 20.8 L 51.2 20.4 L 50 23 L 48.8 20.4 L 45 20.8 L 47.7 18.7 L 46 15.8 L 48.8 17 Z" fill="#F59E0B"/>'
+    '</svg>'
+)
 
-SVG_TOWN_LANDSCAPE = """
-<svg width="100%" height="45" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">
-    <path d="M0 70 L80 25 L160 70 Z" fill="#A7F3D0"/>
-    <path d="M100 70 L200 10 L300 70 Z" fill="#6EE7B7"/>
-    <path d="M400 70 L480 30 L560 70 Z" fill="#A7F3D0"/>
-    <rect x="180" y="40" width="25" height="30" fill="#38BDF8" rx="2"/>
-    <polygon points="180,40 192.5,28 205,40" fill="#F43F5E"/>
-    <rect x="230" y="30" width="30" height="40" fill="#FBBF24" rx="3"/>
-    <rect x="330" y="35" width="25" height="35" fill="#818CF8" rx="2"/>
-    <polygon points="330,35 342.5,25 355,35" fill="#10B981"/>
-    <circle cx="150" cy="50" r="12" fill="#34D399"/>
-    <rect x="148" y="60" width="4" height="10" fill="#78350F"/>
-    <circle cx="380" cy="48" r="14" fill="#10B981"/>
-    <rect x="378" y="58" width="4" height="12" fill="#78350F"/>
-</svg>
-"""
+SVG_TOWN_LANDSCAPE = (
+    '<svg width="100%" height="45" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">'
+    '<path d="M0 70 L80 25 L160 70 Z" fill="#A7F3D0"/>'
+    '<path d="M100 70 L200 10 L300 70 Z" fill="#6EE7B7"/>'
+    '<path d="M400 70 L480 30 L560 70 Z" fill="#A7F3D0"/>'
+    '<rect x="180" y="40" width="25" height="30" fill="#38BDF8" rx="2"/>'
+    '<polygon points="180,40 192.5,28 205,40" fill="#F43F5E"/>'
+    '<rect x="230" y="30" width="30" height="40" fill="#FBBF24" rx="3"/>'
+    '<rect x="330" y="35" width="25" height="35" fill="#818CF8" rx="2"/>'
+    '<polygon points="330,35 342.5,25 355,35" fill="#10B981"/>'
+    '<circle cx="150" cy="50" r="12" fill="#34D399"/>'
+    '<rect x="148" y="60" width="4" height="10" fill="#78350F"/>'
+    '<circle cx="380" cy="48" r="14" fill="#10B981"/>'
+    '<rect x="378" y="58" width="4" height="12" fill="#78350F"/>'
+    '</svg>'
+)
 
 # ---------------------------------------------------------
 # 3. サイドバー
 # ---------------------------------------------------------
-st.sidebar.markdown(f"""
-<div class="sidebar-logo-wrap">
-    {SVG_HACHIBO_CHARACTER}
-    <div>
-        <div class="sidebar-logo-title">ハチボー</div>
-        <div class="sidebar-logo-sub">八王子市 防災ハザード＆避難ナビ</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.sidebar.markdown(
+    f'<div class="sidebar-logo-wrap">'
+    f'{SVG_HACHIBO_CHARACTER}'
+    f'<div><div class="sidebar-logo-title">ハチボー</div>'
+    f'<div class="sidebar-logo-sub">八王子市 防災ハザード＆避難ナビ</div></div>'
+    f'</div>',
+    unsafe_allow_html=True
+)
 
-st.sidebar.markdown(f"""
-<div class="sidebar-msg-bubble">
-    高尾山からみんなをナビするよ！<br>ハザードマップをチェック！
-</div>
-
-<a href="https://hachioji-city.github.io/hazardmap/" target="_blank" class="hazard-btn">
-    🗺️ 八王子市WEBハザードマップ公式
-</a>
-
-<a href="https://hachioji.riskma.jp/#/mobile" target="_blank" class="hazard-btn" style="background-color:#0D9488;">
-    📱 八王子市 Riskma（雨量・河川情報）
-</a>
-
-<a href="https://www.jma.go.jp/bosai/kaikotan/#zoom:11/lat:35.658000/lon:139.339000/colordepth:normal/elements:rasrf&slmcs" target="_blank" class="hazard-btn" style="background-color:#0284C7;">
-    🌧️ 気象庁 雨雲の動き（八王子付近）
-</a>
-
-<div style="margin-top: 20px;">
-    {SVG_TOWN_LANDSCAPE}
-</div>
-""", unsafe_allow_html=True)
+st.sidebar.markdown(
+    f'<div class="sidebar-msg-bubble">高尾山からみんなをナビするよ！<br>ハザードマップをチェック！</div>'
+    f'<a href="https://hachioji-city.github.io/hazardmap/" target="_blank" class="hazard-btn">🗺️ 八王子市WEBハザードマップ公式</a>'
+    f'<a href="https://hachioji.riskma.jp/#/mobile" target="_blank" class="hazard-btn" style="background-color:#0D9488;">📱 八王子市 Riskma（雨量・河川情報）</a>'
+    f'<a href="https://www.jma.go.jp/bosai/kaikotan/#zoom:11/lat:35.658000/lon:139.339000/colordepth:normal/elements:rasrf&slmcs" target="_blank" class="hazard-btn" style="background-color:#0284C7;">🌧️ 気象庁 雨雲の動き（八王子付近）</a>'
+    f'<div style="margin-top: 20px;">{SVG_TOWN_LANDSCAPE}</div>',
+    unsafe_allow_html=True
+)
 
 # ---------------------------------------------------------
 # 4. メイン表示エリア
 # ---------------------------------------------------------
 with st.container():
     st.markdown('<div class="banner-marker"></div>', unsafe_allow_html=True)
-    st.markdown(f"""
-    <div style="text-align: center;">
-        <div class="banner-title-badge">
-            {SVG_HACHIBO_CHARACTER}
-            <span>ハチボー</span>
-        </div>
-        <div class="banner-sub-title">八王子市 防災ハザード＆避難ナビ</div>
-        <div>{SVG_TOWN_LANDSCAPE}</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f'<div style="text-align: center;">'
+        f'<div class="banner-title-badge">{SVG_HACHIBO_CHARACTER}<span>ハチボー</span></div>'
+        f'<div class="banner-sub-title">八王子市 防災ハザード＆避難ナビ</div>'
+        f'<div>{SVG_TOWN_LANDSCAPE}</div>'
+        f'</div>',
+        unsafe_allow_html=True
+    )
     
     with st.container():
         st.markdown('<div class="search-card-marker"></div>', unsafe_allow_html=True)
@@ -459,17 +457,16 @@ route_line, real_dist, real_minutes = get_osrm_route(current_coords, nearest_she
 col1, col2 = st.columns([1.25, 0.75])
 
 with col1:
-    st.markdown(f"""
-    <div class="pink-card">
-        <div class="pink-loc-tag">現在地：{user_address}</div>
-        <div class="pink-guide-tag">向かうべき最寄りの避難所はこちら！</div>
-        <div class="dest-title">{nearest_shelter['name']}</div>
-        <div class="dest-sub">📍 {nearest_shelter['sub']}</div>
-        <div>
-            <span class="pill-green-badge">道路ルート距離：約 {real_dist:.1f} km / 徒歩約 {real_minutes} 分</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="pink-card">'
+        f'<div class="pink-loc-tag">現在地：{user_address}</div>'
+        f'<div class="pink-guide-tag">向かうべき最寄りの避難所はこちら！</div>'
+        f'<div class="dest-title">{nearest_shelter["name"]}</div>'
+        f'<div class="dest-sub">📍 {nearest_shelter["sub"]}</div>'
+        f'<div><span class="pill-green-badge">道路ルート距離：約 {real_dist:.1f} km / 徒歩約 {real_minutes} 分</span></div>'
+        f'</div>',
+        unsafe_allow_html=True
+    )
 
 with col2:
     st.markdown("""
