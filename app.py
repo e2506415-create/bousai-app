@@ -27,8 +27,6 @@ css_style = (
     ".banner-sub-title { font-size: 1rem; font-weight: 800; color: #0284C7; margin-bottom: 12px; letter-spacing: 0.05em; }"
     ".search-title-text { font-size: 1.05rem; font-weight: 900; color: #0284C7; text-align: center; margin-bottom: 10px; }"
     "div[data-baseweb='input'] { border-radius: 14px !important; border: 2px solid #38BDF8 !important; background-color: #F8FAFC !important; }"
-    
-    /* 避難ナビカード（改修） */
     ".nav-card-box { background: #FFFFFF; border-radius: 24px; padding: 20px; border: 3px solid #38BDF8; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); height: 100%; }"
     ".current-pos-badge { background: #E0F2FE; color: #0284C7; font-size: 0.85rem; font-weight: 900; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 6px; }"
     ".current-pos-name { font-size: 1.1rem; font-weight: 900; color: #1E293B; margin-bottom: 14px; border-bottom: 1px dashed #BAE6FD; padding-bottom: 8px; }"
@@ -36,7 +34,6 @@ css_style = (
     ".dest-shelter-title { font-size: 1.5rem; font-weight: 900; color: #047857; margin: 2px 0; }"
     ".dest-shelter-sub { font-size: 0.88rem; color: #475569; font-weight: 800; margin-bottom: 12px; }"
     ".route-info-pill { background-color: #ECFDF5; color: #065F46; padding: 8px 16px; border-radius: 50px; font-weight: 900; font-size: 0.9rem; display: inline-block; border: 1.5px solid #A7F3D0; }"
-    
     ".yellow-card { background: #FFFDF0; border-radius: 24px; padding: 20px; border: 3px solid #FDE68A; box-shadow: 0 8px 20px rgba(253, 230, 138, 0.25); height: 100%; }"
     ".yellow-card-title { color: #D97706; font-weight: 900; font-size: 1.15rem; margin-bottom: 12px; border-bottom: 2px dashed #FDE68A; padding-bottom: 6px; }"
     ".yellow-card-item { font-size: 0.88rem; margin-bottom: 10px; color: #334155; font-weight: 800; line-height: 1.5; }"
@@ -245,7 +242,7 @@ for shelter in SHELTERS:
 route_line, real_dist, real_minutes = get_osrm_route(current_coords, nearest_shelter["coords"])
 
 # ---------------------------------------------------------
-# 6. カード＆マップ表示エリア（混乱防止デザインに修正）
+# 6. カード＆マップ表示エリア
 # ---------------------------------------------------------
 col1, col2 = st.columns([1.25, 0.75])
 
