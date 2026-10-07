@@ -5,6 +5,7 @@ import urllib.parse
 import json
 import urllib.request
 import math
+import re
 
 # ---------------------------------------------------------
 # 1. ページ基本設定
@@ -254,46 +255,32 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 2. SVGパーツ（1行にしてバグを完全に修正）
+# 2. SVGパーツ
 # ---------------------------------------------------------
-# バランスを整えたムササビ「ハチボー」全身SVG
 SVG_HACHIBO_CHARACTER = (
     '<svg width="55" height="55" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
-    '<!-- ふっくら尻尾 -->'
     '<path d="M 68 65 C 88 62 96 38 82 22 C 72 12 62 24 66 38 C 70 48 64 65 Z" fill="#D97706" stroke="#B45309" stroke-width="2"/>'
-    '<!-- ムササビの羽（皮膜） -->'
     '<path d="M 28 50 C 15 58 12 72 22 80 C 30 75 32 68 32 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="1.8"/>'
     '<path d="M 72 50 C 85 58 88 72 78 80 C 70 75 68 68 68 60 Z" fill="#F59E0B" stroke="#B45309" stroke-width="1.8"/>'
-    '<!-- しっかりした胴体 -->'
     '<path d="M 33 50 C 33 50 30 76 38 82 C 45 86 55 86 62 82 C 70 76 67 50 67 50 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>'
-    '<!-- 白いおなか -->'
     '<ellipse cx="50" cy="68" rx="12" ry="10" fill="#FEF3C7"/>'
-    '<!-- 防災ベスト -->'
     '<path d="M 35 56 Q 50 62 65 56 L 62 76 Q 50 80 38 76 Z" fill="#10B981" opacity="0.8"/>'
-    '<!-- 足 -->'
     '<ellipse cx="40" cy="83" rx="5" ry="3" fill="#78350F"/>'
     '<ellipse cx="60" cy="83" rx="5" ry="3" fill="#78350F"/>'
-    '<!-- 手（ポーズ） -->'
     '<circle cx="30" cy="58" r="3.5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>'
     '<circle cx="70" cy="58" r="3.5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>'
-    '<!-- 顔 -->'
     '<ellipse cx="50" cy="38" rx="20" ry="16" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>'
     '<ellipse cx="50" cy="41" rx="14" ry="10" fill="#FEF3C7"/>'
-    '<!-- つぶらな目 -->'
     '<circle cx="41" cy="37" r="3" fill="#1E293B"/>'
     '<circle cx="59" cy="37" r="3" fill="#1E293B"/>'
     '<circle cx="42" cy="35.5" r="1" fill="white"/>'
     '<circle cx="60" cy="35.5" r="1" fill="white"/>'
-    '<!-- 鼻と口 -->'
     '<polygon points="48,40 52,40 50,42" fill="#78350F"/>'
     '<path d="M 46 43 Q 50 46 54 43" stroke="#78350F" stroke-width="1.5" stroke-linecap="round" fill="none"/>'
-    '<!-- ほっぺ -->'
     '<ellipse cx="35" cy="41" rx="3" ry="1.8" fill="#F43F5E" opacity="0.5"/>'
     '<ellipse cx="65" cy="41" rx="3" ry="1.8" fill="#F43F5E" opacity="0.5"/>'
-    '<!-- 防災ヘルメット -->'
     '<path d="M 28 28 C 28 10, 72 10, 72 28 Z" fill="#10B981"/>'
     '<rect x="24" y="26" width="52" height="4" rx="2" fill="#059669"/>'
-    '<!-- 高尾山もみじマーク -->'
     '<path d="M 50 14 L 51.2 17 L 54 15.8 L 52.3 18.7 L 55 20.8 L 51.2 20.4 L 50 23 L 48.8 20.4 L 45 20.8 L 47.7 18.7 L 46 15.8 L 48.8 17 Z" fill="#F59E0B"/>'
     '</svg>'
 )
@@ -337,7 +324,7 @@ st.sidebar.markdown(
 )
 
 # ---------------------------------------------------------
-# 4. メイン表示エリア
+# 4. メイン表示エリア（フォーム初期値をプレースホルダーへ変更）
 # ---------------------------------------------------------
 with st.container():
     st.markdown('<div class="banner-marker"></div>', unsafe_allow_html=True)
@@ -353,28 +340,53 @@ with st.container():
     with st.container():
         st.markdown('<div class="search-card-marker"></div>', unsafe_allow_html=True)
         st.markdown('<div class="search-title-text">📍 いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
-        user_address = st.text_input("現在地入力フォーム", value="八王子市丹木町1丁目", label_visibility="collapsed")
+        # 初期値(value)を空にし、プレースホルダーとして「八王子市丹木町1丁目」を提示
+        user_address_input = st.text_input(
+            "現在地入力フォーム", 
+            value="", 
+            placeholder="例：八王子市丹木町1丁目、八王子駅、創価大学 など", 
+            label_visibility="collapsed"
+        )
+
+# 未入力の場合はデフォルトの八王子市役所周辺として扱う
+display_address = user_address_input if user_address_input.strip() else "八王子市丹木町1丁目"
 
 # ---------------------------------------------------------
-# 5. 住所ジオコーディング・道路ルート(OSRM)計算ロジック
+# 5. ジオコーディング（細かい番地数字を取り除いて安全検索）
 # ---------------------------------------------------------
+def clean_address_for_gsi(address_text):
+    """APIエラーを防ぐため、末尾の細かな数字・番地表記を除去する"""
+    text = address_text.strip()
+    # 全角数字を半角に変換
+    text = text.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+    # 数字とハイフン、丁目・番・号の組み合わせを削る
+    text = re.sub(r'[\d\-－丁目番号]+$', '', text)
+    return text.strip()
+
 def get_coords_from_address(address_text):
     default_coords = [35.6881, 139.3275]
     if not address_text:
         return default_coords
+    
     try:
-        search_query = address_text
+        # まず入力されたそのままのテキストをクレンジング
+        cleaned_text = clean_address_for_gsi(address_text)
+        
+        search_query = cleaned_text if cleaned_text else address_text
         if "八王子" not in search_query:
             search_query = "東京都八王子市 " + search_query
+            
         url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=" + urllib.parse.quote(search_query)
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req) as response:
+        
+        with urllib.request.urlopen(req, timeout=3) as response:
             data = json.loads(response.read().decode('utf-8'))
             if data and len(data) > 0:
                 lon, lat = data[0]['geometry']['coordinates']
                 return [lat, lon]
     except Exception:
         pass
+        
     return default_coords
 
 def calculate_distance(lat1, lon1, lat2, lon2):
@@ -404,7 +416,7 @@ def get_osrm_route(start_coords, end_coords):
     walk_min = math.ceil((dist / 4.0) * 60)
     return [start_coords, end_coords], dist, walk_min
 
-current_coords = get_coords_from_address(user_address)
+current_coords = get_coords_from_address(display_address)
 
 # 八王子市公式避難所リスト
 SHELTERS = [
@@ -459,7 +471,7 @@ col1, col2 = st.columns([1.25, 0.75])
 with col1:
     st.markdown(
         f'<div class="pink-card">'
-        f'<div class="pink-loc-tag">現在地：{user_address}</div>'
+        f'<div class="pink-loc-tag">現在地：{display_address}</div>'
         f'<div class="pink-guide-tag">向かうべき最寄りの避難所はこちら！</div>'
         f'<div class="dest-title">{nearest_shelter["name"]}</div>'
         f'<div class="dest-sub">📍 {nearest_shelter["sub"]}</div>'
@@ -503,7 +515,7 @@ folium.TileLayer(
 # マーカー（現在地）
 folium.Marker(
     location=current_coords,
-    popup=f"現在地: {user_address}",
+    popup=f"現在地: {display_address}",
     tooltip="現在地",
     icon=folium.Icon(color="red", icon="info-sign")
 ).add_to(m)
