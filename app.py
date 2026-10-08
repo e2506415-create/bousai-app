@@ -352,4 +352,66 @@ folium.TileLayer(
 ).add_to(m)
 
 folium.TileLayer(
-    tiles="
+    tiles="https://disaportaldata.gsi.go.jp/raster/05_sedimentdisaster_raster/{z}/{x}/{y}.png",
+    attr="国土地理院 土砂災害警戒区域",
+    name="⛰️ 土砂災害警戒区域",
+    opacity=0.6,
+    overlay=True,
+    control=True
+).add_to(m)
+
+# マーカー (前のまま)
+folium.Marker(
+    location=current_coords,
+    popup=f"現在地: {display_address}",
+    tooltip="現在地",
+    icon=folium.Icon(color="red", icon="info-sign")
+).add_to(m)
+
+folium.Marker(
+    location=nearest_shelter["coords"],
+    popup=f"{nearest_shelter['name']} ({nearest_shelter['cap']})",
+    tooltip=nearest_shelter['name'],
+    icon=folium.Icon(color="green", icon="home")
+).add_to(m)
+
+# 道路沿いの避難ルート (用途別)
+# フォールバック時は直線、API正常時は道路沿い
+folium.PolyLine(
+    locations=route_line,
+    color="#00A86B",
+    weight=6,
+    opacity=0.85,
+    dash_array="6, 6" if is_fallback else None, # 直線時は点線に
+    tooltip=f"{mode_label}避難ルート"
+).add_to(m)
+
+# 新機能: レイヤーコントロール（右上）を collapsed=False で最初から展開
+folium.LayerControl(position="topright", collapsed=False).add_to(m)
+
+# 地図レンダリング (前のまま)
+st_folium(m, width="100%", height=450)
+
+# 外部公式リンク案内 (前のまま)
+st.markdown(
+    '<div style="margin-top: 15px; text-align: center;">'
+    '<a href="https://hachioji-city.github.io/hazardmap/" target="_blank" style="color:#0284C7; font-weight:900; text-decoration:underline; font-size:1.05rem;">'
+    '🔗 詳細な避難場所指定や最新情報は「八王子市 WEB防災ハザードマップ公式」で確認できます'
+    '</a></div>',
+    unsafe_allow_html=True
+)
+
+# ---------------------------------------------------------
+# 7. 緊急連絡先エリア (前のまま)
+# ---------------------------------------------------------
+contact_html = (
+    '<div class="contact-card-box">'
+    '<div class="contact-card-title">緊急連絡先＆通報ダイヤル</div>'
+    '<div class="contact-grid-wrap">'
+    '<div class="contact-item-box"><div class="contact-item-label">火災・救急・救助</div><div class="contact-item-num">119 番</div></div>'
+    '<div class="contact-item-box"><div class="contact-item-label">警察（事件・事故）</div><div class="contact-item-num" style="color:#0284C7;">110 番</div></div>'
+    '<div class="contact-item-box"><div class="contact-item-label">災害用伝言ダイヤル</div><div class="contact-item-num" style="color:#0D9488;">171 番</div></div>'
+    '<div class="contact-item-box"><div class="contact-item-label">八王子市役所 (代表)</div><div style="font-weight:900; font-size:1.0rem; color:#334155; margin-top:4px;">042-620-7111</div></div>'
+    '</div></div>'
+)
+st.markdown(contact_html, unsafe_allow_html=True)
