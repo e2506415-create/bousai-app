@@ -7,14 +7,13 @@ import urllib.request
 import math
 import re
 import random
-from datetime import datetime
 
 # ---------------------------------------------------------
 # 1. ページ基本設定
 # ---------------------------------------------------------
 st.set_page_config(page_title="ハチボー | 八王子市 防災ハザード＆避難ナビ", layout="wide")
 
-# CSS設定（前のポップなデザイン＋新機能UI）
+# CSS設定（Pythonの文字列結合で正しく記述）
 css_style = (
     "<style>"
     "@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap');"
@@ -48,14 +47,10 @@ css_style = (
     ".contact-item-label { font-size: 0.75rem; color: #64748B; font-weight: 800; }"
     ".contact-item-num { font-size: 1.35rem; font-weight: 900; color: #E11D48; margin-top: 2px; }"
     ".level-badge { background: #FFFFFF; color: #D97706; border: 2px solid #FDE68A; padding: 2px 8px; border-radius: 8px; font-weight: 900; font-size: 0.75rem; margin-left: 8px; vertical-align: middle; }"
-    
-    /* ARカメラ風カードのスタイル */
     ".ar-viewport { position: relative; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border-radius: 24px; padding: 20px; color: white; border: 4px solid #38BDF8; text-align: center; overflow: hidden; font-family: sans-serif; }"
     ".ar-arrow { font-size: 3.5rem; animation: bounce 1.5s infinite; margin: 10px 0; display: inline-block; }"
     "@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }"
     ".ar-tag { background: rgba(16, 185, 129, 0.9); border: 2px solid #6EE7B7; border-radius: 12px; padding: 10px; margin-top: 10px; font-weight: bold; color: white; display: inline-block; }"
-    
-    /* 掲示板カードのスタイル */
     ".board-card { background: #FFFFFF; border-radius: 16px; padding: 12px 16px; border-left: 5px solid #38BDF8; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }"
     ".board-time { font-size: 0.75rem; color: #94A3B8; font-weight: bold; }"
     ".board-user { font-weight: 900; color: #0284C7; font-size: 0.9rem; }"
@@ -173,7 +168,6 @@ sidebar_logo_html = (
 )
 st.sidebar.markdown(sidebar_logo_html, unsafe_allow_html=True)
 
-# インタラクティブ：ハチボーを突っつくボタン
 if st.sidebar.button("🖐️ ハチボーをつついてみる"):
     st.session_state.hachibo_mood = random.choice(["happy", "wink"])
     add_exp(1)
@@ -319,7 +313,7 @@ tab_map, tab_ar, tab_ai, tab_board = st.tabs([
 ])
 
 # ---------------------------------------------------------
-# TAB 1: 従来マップ＋情報表示
+# TAB 1: マップ＋情報表示
 # ---------------------------------------------------------
 with tab_map:
     if is_fallback:
@@ -414,7 +408,6 @@ with tab_ai:
         with st.chat_message("user"):
             st.write(user_prompt)
 
-        # 簡易応答ロジック（八王子防災特化）
         bot_reply = "質問ありがとう！八王子の防災情報はボクにおまかせ！"
         if "創価大学" in user_prompt or "避難" in user_prompt:
             bot_reply = f"最寄りの避難所は【{nearest_shelter['name']}】（{nearest_shelter['sub']}）だよ！現在地から約{round(real_dist,1)}km、{mode_label}で約{real_minutes}分で着くよ！"
@@ -446,7 +439,7 @@ with tab_board:
                     "text": post_text,
                     "type": post_type
                 })
-                add_exp(3) # 投稿でポイントゲット
+                add_exp(3)
                 st.success("投稿しました！ポイント獲得！")
                 st.rerun()
 
@@ -463,7 +456,7 @@ with tab_board:
         st.markdown(board_html, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 7. 緊急連絡先エリア
+# 5. 緊急連絡先エリア
 # ---------------------------------------------------------
 contact_html = (
     '<div class="contact-card-box">'
