@@ -109,9 +109,9 @@ SVG_TOWN_LANDSCAPE = (
 )
 
 # ---------------------------------------------------------
-# 気象庁API リアルタイム警報取得関数（八王子市: 1320100）
+# 気象庁API リアルタイム警報取得関数（安全保護付き）
 # ---------------------------------------------------------
-@st.cache_data(ttl=300)  # 5分キャッシュ
+@st.cache_data(ttl=300)
 def fetch_hachioji_jma_warning():
     """気象庁のリアルタイムJSONデータから八王子市の警報・注意報を取得"""
     url = "https://www.jma.go.jp/bosai/warning/data/warning/130000.json"
@@ -120,27 +120,29 @@ def fetch_hachioji_jma_warning():
         with urllib.request.urlopen(req, timeout=4) as response:
             data = json.loads(response.read().decode('utf-8'))
             
-            for area_group in data.get("areaTypes", []):
-                for area in area_group.get("areas", []):
-                    # 八王子市のエリアコードは 1320100
-                    if area.get("code") == "1320100":
+            # JSON形式の安全なパース
+            area_types = data.get("areaTypes", []) if isinstance(data, dict) else []
+            for area_group in area_types:
+                areas = area_group.get("areas", []) if isinstance(area_group, dict) else []
+                for area in areas:
+                    if isinstance(area, dict) and area.get("code") == "1320100":
                         warnings = area.get("warnings", [])
                         active_warnings = []
                         max_lvl = "レベル1"
                         
                         for w in warnings:
-                            status = w.get("status", "")
-                            if status in ["発表", "継続"]:
-                                name = w.get("name", "")
-                                active_warnings.append(name)
-                                # 危険度レベルの自動判定
-                                if "特別警報" in name:
-                                    max_lvl = "レベル5"
-                                elif "警報" in name and max_lvl not in ["レベル5"]:
-                                    max_lvl = "レベル4"
-                                elif "注意報" in name and max_lvl in ["レベル1"]:
-                                    max_lvl = "レベル2"
-                                    
+                            if isinstance(w, dict):
+                                status = w.get("status", "")
+                                if status in ["発表", "継続"]:
+                                    name = w.get("name", "")
+                                    if name:
+                                        active_warnings.append(name)
+                                        if "特別警報" in name:
+                                            max_lvl = "レベル5"
+                                        elif "警報" in name and max_lvl not in ["レベル5"]:
+                                            max_lvl = "レベル4"
+                                        elif "注意報" in name and max_lvl in ["レベル1"]:
+                                            max_lvl = "レベル2"
                         return max_lvl, active_warnings
     except Exception:
         pass
@@ -214,7 +216,7 @@ def get_coords_from_address(address_text):
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=3) as response:
             data = json.loads(response.read().decode('utf-8'))
-            if data and len(data) > 0:
+            if data and isinstance(data, list) and len(data) > 0:
                 lon, lat = data[0]['geometry']['coordinates']
                 return [lat, lon]
     except Exception:
@@ -235,7 +237,7 @@ def get_route_osrm(start_coords, end_coords, profile='foot'):
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=3) as response:
             data = json.loads(response.read().decode('utf-8'))
-            if data.get('routes'):
+            if isinstance(data, dict) and data.get('routes'):
                 route = data['routes'][0]
                 geometry = route['geometry']['coordinates']
                 route_line = [[lat, lon] for lon, lat in geometry]
@@ -290,7 +292,7 @@ alert_info = {
 }
 
 curr_alert = alert_info.get(selected_lvl_key, alert_info["レベル1"])
-warning_detail_str = " / ".join(active_warnings_list) if active_warnings_list else "特記事項なし"
+warning_detail_str = " / ".join(active_warnings_list) if active_warnings_list else "特記事項なし（発表なし）"
 
 alert_card_html = (
     '<div class="alert-card ' + curr_alert["class"] + '">'
