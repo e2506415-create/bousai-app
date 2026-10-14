@@ -27,8 +27,6 @@ css_style = (
     ".banner-sub-title { font-size: 1rem; font-weight: 800; color: #0284C7; margin-bottom: 12px; letter-spacing: 0.05em; }"
     ".search-title-text { font-size: 1.05rem; font-weight: 900; color: #0284C7; text-align: center; margin-bottom: 10px; }"
     "div[data-baseweb='input'] { border-radius: 14px !important; border: 2px solid #38BDF8 !important; background-color: #F8FAFC !important; }"
-    
-    /* 警戒レベルカード用CSS */
     ".alert-card { border-radius: 20px; padding: 16px 20px; margin-bottom: 20px; text-align: center; color: white; font-weight: 900; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }"
     ".alert-lvl-1 { background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%); border: 3px solid #7DD3FC; }"
     ".alert-lvl-2 { background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%); border: 3px solid #FDE68A; }"
@@ -38,7 +36,6 @@ css_style = (
     ".alert-title { font-size: 1.4rem; letter-spacing: 0.05em; margin-bottom: 4px; }"
     ".alert-action { font-size: 1.0rem; background: rgba(255,255,255,0.25); padding: 6px 16px; border-radius: 50px; display: inline-block; margin-top: 6px; }"
     ".alert-raw-msg { font-size: 0.82rem; margin-top: 8px; opacity: 0.95; font-weight: 700; }"
-
     ".nav-card-box { background: #FFFFFF; border-radius: 24px; padding: 20px; border: 3px solid #38BDF8; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); height: 100%; }"
     ".current-pos-badge { background: #E0F2FE; color: #0284C7; font-size: 0.85rem; font-weight: 900; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 6px; }"
     ".current-pos-name { font-size: 1.1rem; font-weight: 900; color: #1E293B; margin-bottom: 14px; border-bottom: 1px dashed #BAE6FD; padding-bottom: 8px; }"
@@ -109,18 +106,16 @@ SVG_TOWN_LANDSCAPE = (
 )
 
 # ---------------------------------------------------------
-# 気象庁API リアルタイム警報取得関数（安全保護付き）
+# 気象庁API リアルタイム警報取得関数（八王子市）
 # ---------------------------------------------------------
 @st.cache_data(ttl=300)
 def fetch_hachioji_jma_warning():
-    """気象庁のリアルタイムJSONデータから八王子市の警報・注意報を取得"""
     url = "https://www.jma.go.jp/bosai/warning/data/warning/130000.json"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=4) as response:
             data = json.loads(response.read().decode('utf-8'))
             
-            # JSON形式の安全なパース
             area_types = data.get("areaTypes", []) if isinstance(data, dict) else []
             for area_group in area_types:
                 areas = area_group.get("areas", []) if isinstance(area_group, dict) else []
@@ -262,7 +257,7 @@ header_html = (
 )
 st.markdown(header_html, unsafe_allow_html=True)
 
-# --- 警戒レベル表示カード（気象庁リアルタイム対応） ---
+# 警戒レベル表示カード
 alert_info = {
     "レベル1": {
         "class": "alert-lvl-1",
