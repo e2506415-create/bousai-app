@@ -7,6 +7,13 @@ import urllib.request
 import math
 import re
 
+# モジュール読込エラー防止（オプショナルインポート）
+try:
+    from streamlit_js_eval import get_geolocation
+    HAS_GPS_LIB = True
+except ImportError:
+    HAS_GPS_LIB = False
+
 # ---------------------------------------------------------
 # 1. ページ基本設定
 # ---------------------------------------------------------
@@ -115,7 +122,6 @@ def fetch_hachioji_jma_warning():
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=4) as response:
             data = json.loads(response.read().decode('utf-8'))
-            
             area_types = data.get("areaTypes", []) if isinstance(data, dict) else []
             for area_group in area_types:
                 areas = area_group.get("areas", []) if isinstance(area_group, dict) else []
@@ -124,7 +130,6 @@ def fetch_hachioji_jma_warning():
                         warnings = area.get("warnings", [])
                         active_warnings = []
                         max_lvl = "レベル1"
-                        
                         for w in warnings:
                             if isinstance(w, dict):
                                 status = w.get("status", "")
@@ -298,17 +303,34 @@ alert_card_html = (
 )
 st.markdown(alert_card_html, unsafe_allow_html=True)
 
-st.markdown('<div class="search-title-text">📍 いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
+st.markdown('<div class="search-title-text">📍 いまどこにいる？（GPS取得 または 住所・建物名入力）</div>', unsafe_allow_html=True)
 
-user_address_input = st.text_input(
-    "現在地入力フォーム", 
-    value="", 
-    placeholder="例：八王子市丹木町1丁目、八王子駅、創価大学 など", 
-    label_visibility="collapsed"
-)
+# 位置情報取得（GPS）と住所手動入力の判定エリア
+current_coords = None
+display_address = ""
 
-display_address = user_address_input if user_address_input.strip() else "八王子市丹木町1丁目"
-current_coords = get_coords_from_address(display_address)
+location = None
+if HAS_GPS_LIB:
+    try:
+        location = get_geolocation()
+    except Exception:
+        location = None
+
+if location and isinstance(location, dict) and 'coords' in location:
+    lat = location['coords']['latitude']
+    lon = location['coords']['longitude']
+    current_coords = [lat, lon]
+    display_address = "現在地（GPS自動取得）"
+    st.success("📍 GPSで現在地を取得しました！")
+else:
+    user_address_input = st.text_input(
+        "現在地入力フォーム", 
+        value="", 
+        placeholder="例：八王子市丹木町1丁目、八王子駅 など", 
+        label_visibility="collapsed"
+    )
+    display_address = user_address_input if user_address_input.strip() else "八王子市丹木町1丁目"
+    current_coords = get_coords_from_address(display_address)
 
 SHELTERS = [
     {"name": "創価大学", "sub": "丹木町1-236 / 広域避難場所", "coords": [35.6870, 139.3285], "cap": "屋外 192,000㎡"},
