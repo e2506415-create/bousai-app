@@ -22,11 +22,23 @@ css_style = (
     ".sidebar-logo-title { font-size: 1.5rem; font-weight: 900; color: #0F172A; line-height: 1.1; }"
     ".sidebar-logo-sub { font-size: 0.72rem; color: #0284C7; font-weight: 800; margin-top: 2px; }"
     ".sidebar-msg-bubble { background-color: #FFFFFF; border: 2px dashed #38BDF8; border-radius: 20px; padding: 14px; color: #0284C7; font-size: 0.95rem; font-weight: 900; text-align: center; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }"
-    ".main-header-card { background: linear-gradient(180deg, #E0F2FE 0%, #FFFFFF 100%); border: 3px solid #BAE6FD; border-radius: 28px; padding: 24px 20px 16px 20px; text-align: center; box-shadow: 0 8px 24px rgba(56, 189, 248, 0.12); margin-bottom: 20px; }"
+    ".main-header-card { background: linear-gradient(180deg, #E0F2FE 0%, #FFFFFF 100%); border: 3px solid #BAE6FD; border-radius: 28px; padding: 24px 20px 16px 20px; text-align: center; box-shadow: 0 8px 24px rgba(56, 189, 248, 0.12); margin-bottom: 16px; }"
     ".banner-title-badge { display: inline-flex; align-items: center; gap: 12px; background: #FFFFFF; padding: 10px 28px; border-radius: 50px; color: #D97706; font-weight: 900; font-size: 2rem; box-shadow: 0 4px 16px rgba(217, 119, 6, 0.15); border: 2px solid #FDE68A; margin-bottom: 8px; }"
     ".banner-sub-title { font-size: 1rem; font-weight: 800; color: #0284C7; margin-bottom: 12px; letter-spacing: 0.05em; }"
     ".search-title-text { font-size: 1.05rem; font-weight: 900; color: #0284C7; text-align: center; margin-bottom: 10px; }"
     "div[data-baseweb='input'] { border-radius: 14px !important; border: 2px solid #38BDF8 !important; background-color: #F8FAFC !important; }"
+    
+    /* 警戒レベルカード用CSS */
+    ".alert-card { border-radius: 20px; padding: 16px 20px; margin-bottom: 20px; text-align: center; color: white; font-weight: 900; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }"
+    ".alert-lvl-1 { background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%); border: 3px solid #7DD3FC; }"
+    ".alert-lvl-2 { background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%); border: 3px solid #FDE68A; }"
+    ".alert-lvl-3 { background: linear-gradient(135deg, #EA580C 0%, #F97316 100%); border: 3px solid #FFEDD5; }"
+    ".alert-lvl-4 { background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%); border: 3px solid #FCA5A5; }"
+    ".alert-lvl-5 { background: linear-gradient(135deg, #4C1D95 0%, #1E1B4B 100%); border: 3px solid #DDD6FE; }"
+    ".alert-title { font-size: 1.4rem; letter-spacing: 0.05em; margin-bottom: 4px; }"
+    ".alert-action { font-size: 1.0rem; background: rgba(255,255,255,0.25); padding: 6px 16px; border-radius: 50px; display: inline-block; margin-top: 6px; }"
+    ".alert-raw-msg { font-size: 0.82rem; margin-top: 8px; opacity: 0.95; font-weight: 700; }"
+
     ".nav-card-box { background: #FFFFFF; border-radius: 24px; padding: 20px; border: 3px solid #38BDF8; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); height: 100%; }"
     ".current-pos-badge { background: #E0F2FE; color: #0284C7; font-size: 0.85rem; font-weight: 900; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 6px; }"
     ".current-pos-name { font-size: 1.1rem; font-weight: 900; color: #1E293B; margin-bottom: 14px; border-bottom: 1px dashed #BAE6FD; padding-bottom: 8px; }"
@@ -97,6 +109,44 @@ SVG_TOWN_LANDSCAPE = (
 )
 
 # ---------------------------------------------------------
+# 気象庁API リアルタイム警報取得関数（八王子市: 1320100）
+# ---------------------------------------------------------
+@st.cache_data(ttl=300)  # 5分キャッシュ
+def fetch_hachioji_jma_warning():
+    """気象庁のリアルタイムJSONデータから八王子市の警報・注意報を取得"""
+    url = "https://www.jma.go.jp/bosai/warning/data/warning/130000.json"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=4) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            
+            for area_group in data.get("areaTypes", []):
+                for area in area_group.get("areas", []):
+                    # 八王子市のエリアコードは 1320100
+                    if area.get("code") == "1320100":
+                        warnings = area.get("warnings", [])
+                        active_warnings = []
+                        max_lvl = "レベル1"
+                        
+                        for w in warnings:
+                            status = w.get("status", "")
+                            if status in ["発表", "継続"]:
+                                name = w.get("name", "")
+                                active_warnings.append(name)
+                                # 危険度レベルの自動判定
+                                if "特別警報" in name:
+                                    max_lvl = "レベル5"
+                                elif "警報" in name and max_lvl not in ["レベル5"]:
+                                    max_lvl = "レベル4"
+                                elif "注意報" in name and max_lvl in ["レベル1"]:
+                                    max_lvl = "レベル2"
+                                    
+                        return max_lvl, active_warnings
+    except Exception:
+        pass
+    return "レベル1", []
+
+# ---------------------------------------------------------
 # 3. サイドバー
 # ---------------------------------------------------------
 sidebar_logo_html = (
@@ -112,6 +162,28 @@ st.sidebar.markdown(
     '<div class="sidebar-msg-bubble">高尾山からみんなをナビするよ！</div>',
     unsafe_allow_html=True
 )
+
+st.sidebar.markdown("---")
+use_realtime = st.sidebar.toggle("📡 気象庁API リアルタイム連動", value=True)
+
+if not use_realtime:
+    st.sidebar.subheader("🚨 警戒レベル手動切替（訓練用）")
+    alert_level = st.sidebar.selectbox(
+        "現在の災害警戒レベルを選択",
+        [
+            "レベル1：早期注意情報（心構え）",
+            "レベル2：大雨・洪水注意報（避難行動確認）",
+            "レベル3：高齢者等避難（高齢者は危険な場所から避難）",
+            "レベル4：避難指示（全員危険な場所から避難）",
+            "レベル5：緊急安全確保（命を守る最善の行動）"
+        ],
+        index=1
+    )
+    selected_lvl_key = alert_level.split("：")[0]
+    active_warnings_list = ["訓練用シミュレーションモード"]
+else:
+    realtime_lvl, active_warnings_list = fetch_hachioji_jma_warning()
+    selected_lvl_key = realtime_lvl
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("🏃‍♂️ 避難方法の選択")
@@ -187,6 +259,47 @@ header_html = (
     '</div>'
 )
 st.markdown(header_html, unsafe_allow_html=True)
+
+# --- 警戒レベル表示カード（気象庁リアルタイム対応） ---
+alert_info = {
+    "レベル1": {
+        "class": "alert-lvl-1",
+        "title": "🔵 警戒レベル 1：現在、八王子市に大きな警戒発表はありません（平常）",
+        "action": "気象情報や台風の接近情報などを適宜チェックしましょう。"
+    },
+    "レベル2": {
+        "class": "alert-lvl-2",
+        "title": "🟡 警戒レベル 2：注意報が発表されています（避難行動確認）",
+        "action": "ハザードマップで避難経路や持ち出し品を再確認してください。"
+    },
+    "レベル3": {
+        "class": "alert-lvl-3",
+        "title": "🟠 警戒レベル 3：高齢者等避難（警報発表中）",
+        "action": "高齢者や移動に時間のかかる方は危険な場所から避難を開始してください！"
+    },
+    "レベル4": {
+        "class": "alert-lvl-4",
+        "title": "🔴 警戒レベル 4：避難指示（全員危険箇所から避難）",
+        "action": "対象地域の方は速やかに全員指定避難所へ避難を開始してください！"
+    },
+    "レベル5": {
+        "class": "alert-lvl-5",
+        "title": "🟣 警戒レベル 5：緊急安全確保（特別警報発表中）",
+        "action": "命の危険が迫っています！高い場所へ移動するなど直ちに安全を確保してください！"
+    }
+}
+
+curr_alert = alert_info.get(selected_lvl_key, alert_info["レベル1"])
+warning_detail_str = " / ".join(active_warnings_list) if active_warnings_list else "特記事項なし"
+
+alert_card_html = (
+    '<div class="alert-card ' + curr_alert["class"] + '">'
+    '<div class="alert-title">' + curr_alert["title"] + '</div>'
+    '<div class="alert-action">' + curr_alert["action"] + '</div>'
+    '<div class="alert-raw-msg">📡 八王子市の現在の気象発表: ' + warning_detail_str + '</div>'
+    '</div>'
+)
+st.markdown(alert_card_html, unsafe_allow_html=True)
 
 st.markdown('<div class="search-title-text">📍 いまどこにいる？（住所や建物名を入力してね）</div>', unsafe_allow_html=True)
 
