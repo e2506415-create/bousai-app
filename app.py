@@ -154,7 +154,7 @@ def fetch_hachioji_jma_warning():
 sidebar_logo_html = (
     '<div class="sidebar-logo-wrap">'
     + SVG_HACHIBO_CHARACTER +
-    '<div><div class="sidebar-logo-title">ハチボー</div>'
+    '<div><div class="sidebar-logo-title">はちまる</div>'
     '<div class="sidebar-logo-sub">八王子市 避難ナビ</div></div>'
     '</div>'
 )
@@ -191,7 +191,7 @@ st.sidebar.markdown("---")
 st.sidebar.subheader("🏃‍♂️ 避難方法の選択")
 mode_opt = st.sidebar.radio(
     "移動手段を選んでね",
-    ('徒歩 (推奨)', '自転車', '車 (緊急時のみ)'),
+    ('徒歩 (推奨)', '車 (緊急時のみ)'),
     index=0
 )
 
@@ -348,7 +348,7 @@ for shelter in SHELTERS:
         min_distance = dist
         nearest_shelter = shelter
 
-mode_map = {'徒歩 (推奨)': 'foot', '自転車': 'cycling', '車 (緊急時のみ)': 'driving'}
+mode_map = {'徒歩 (推奨)': 'foot', '車 (緊急時のみ)': 'driving'}
 mode_profile = mode_map[mode_opt]
 route_line, real_dist, real_minutes, is_fallback = get_route_osrm(current_coords, nearest_shelter["coords"], mode_profile)
 mode_label = mode_opt.split(' ')[0]
