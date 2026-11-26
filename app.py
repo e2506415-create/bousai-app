@@ -7,7 +7,7 @@ import urllib.request
 import math
 import re
 
-# オプショナルインポート（GPS機能用）
+# オプショナルインポート（自動GPS機能用）
 try:
     from streamlit_js_eval import get_geolocation
     HAS_GPS_LIB = True
@@ -24,7 +24,7 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# CSS設定（スマホ・PC・HP埋め込み最適化）
+# CSS設定
 css_style = (
     "<style>"
     "@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&display=swap');"
@@ -121,38 +121,59 @@ SVG_TOWN_LANDSCAPE = (
 )
 
 # ---------------------------------------------------------
-# 3. 八王子市全域 主要指定避難所・広域避難場所マスターデータ (25箇所)
+# 3. ローカル内蔵データベース（外部API不要・災害時ダウン耐性）
 # ---------------------------------------------------------
+# 主要駅・ランドマーク内蔵座標辞書（通信ゼロで即座に検索可能）
+LOCAL_LANDMARKS = {
+    "八王子駅": [35.6558, 139.3389],
+    "八王子": [35.6558, 139.3389],
+    "京王八王子": [35.6580, 139.3435],
+    "西八王子": [35.6565, 139.3125],
+    "高尾駅": [35.6421, 139.2823],
+    "高尾": [35.6421, 139.2823],
+    "高尾山口": [35.6323, 139.2700],
+    "南大沢": [35.6138, 139.3792],
+    "北野": [35.6444, 139.3547],
+    "片倉": [35.6353, 139.3411],
+    "みなみ野": [35.6311, 139.3308],
+    "八王子みなみ野": [35.6311, 139.3308],
+    "長沼": [35.6478, 139.3658],
+    "平山城址公園": [35.6475, 139.3800],
+    "堀之内": [35.6236, 139.3933],
+    "京王堀之内": [35.6236, 139.3933],
+    "山田": [35.6422, 139.3278],
+    "めじろ台": [35.6347, 139.3075],
+    "狭間": [35.6350, 139.2933],
+    "丹木町": [35.6881, 139.3275],
+    "創価大学": [35.6870, 139.3285],
+    "東京都立大学": [35.6195, 139.3810],
+    "工学院大学": [35.6875, 139.3180],
+    "中央大学": [35.6425, 139.4045],
+    "帝京大学": [35.6350, 139.4125],
+    "八王子市役所": [35.6663, 139.3160]
+}
+
 SHELTERS = [
-    # 中心部・駅周辺エリア
     {"name": "第一小学校", "sub": "元横山町2-14-3 / 指定避難所", "coords": [35.6590, 139.3390], "cap": "屋内 2,561㎡"},
     {"name": "第三小学校", "sub": "上野町31-1 / 指定避難所", "coords": [35.6510, 139.3320], "cap": "屋内 2,400㎡"},
     {"name": "第四小学校", "sub": "明神町2-15-1 / 指定避難所", "coords": [35.6552, 139.3465], "cap": "屋内 2,671㎡"},
     {"name": "第六小学校", "sub": "本町24-1 / 指定避難所", "coords": [35.6615, 139.3270], "cap": "屋内 2,310㎡"},
     {"name": "第七小学校", "sub": "台町3-25-1 / 指定避難所", "coords": [35.6515, 139.3175], "cap": "屋内 2,450㎡"},
     {"name": "富士森公園", "sub": "台町2-2 / 広域避難場所", "coords": [35.6518, 139.3228], "cap": "屋外 140,000㎡"},
-    
-    # 北部・加住・丹木・楢原エリア
     {"name": "創価大学", "sub": "丹木町1-236 / 広域避難場所", "coords": [35.6870, 139.3285], "cap": "屋外 192,000㎡"},
     {"name": "加住小・中学校", "sub": "加住町1-191 / 指定避難所", "coords": [35.6828, 139.3361], "cap": "屋内 2,172㎡"},
     {"name": "楢原小学校", "sub": "楢原町140-4 / 指定避難所", "coords": [35.6805, 139.3030], "cap": "屋内 2,818㎡"},
     {"name": "中野北小学校", "sub": "中野山王2-20-1 / 指定避難所", "coords": [35.6725, 139.3260], "cap": "屋内 2,510㎡"},
     {"name": "宇津木台小学校", "sub": "久保山町2-25 / 指定避難所", "coords": [35.6845, 139.3540], "cap": "屋内 2,480㎡"},
-    
-    # 西部・高尾・浅川・長房エリア
     {"name": "浅川小学校", "sub": "初沢町1232 / 指定避難所", "coords": [35.6395, 139.2810], "cap": "屋内 2,390㎡"},
     {"name": "東浅川小学校", "sub": "東浅川町535 / 指定避難所", "coords": [35.6455, 139.2935], "cap": "屋内 2,420㎡"},
     {"name": "長房小学校", "sub": "長房町454 / 指定避難所", "coords": [35.6610, 139.2940], "cap": "屋内 2,610㎡"},
     {"name": "横山第一小学校", "sub": "並木町15-1 / 指定避難所", "coords": [35.6540, 139.3025], "cap": "屋内 2,530㎡"},
     {"name": "館小・中学校", "sub": "館町1097 / 指定避難所", "coords": [35.6320, 139.2975], "cap": "屋内 2,750㎡"},
-    
-    # 南部・北野・片倉・みなみ野エリア
     {"name": "北野小学校", "sub": "北野町538-1 / 指定避難所", "coords": [35.6435, 139.3550], "cap": "屋内 2,490㎡"},
     {"name": "由井第一小学校", "sub": "打越町1192 / 指定避難所", "coords": [35.6400, 139.3455], "cap": "屋内 2,380㎡"},
     {"name": "片倉台小学校", "sub": "片倉町1405 / 指定避難所", "coords": [35.6295, 139.3390], "cap": "屋内 2,410㎡"},
     {"name": "みなみ野小学校", "sub": "みなみ野1-13-1 / 指定避難所", "coords": [35.6310, 139.3220], "cap": "屋内 2,890㎡"},
-    
-    # 南東部・南大沢・堀之内・由木エリア
     {"name": "南大沢小学校", "sub": "南大沢3-18 / 指定避難所", "coords": [35.6165, 139.3765], "cap": "屋内 2,710㎡"},
     {"name": "東京都立大学（南大沢キャンパス）", "sub": "南大沢1-1 / 広域避難場所", "coords": [35.6195, 139.3810], "cap": "屋外 420,000㎡"},
     {"name": "松木小学校", "sub": "松木38-1 / 指定避難所", "coords": [35.6255, 139.3895], "cap": "屋内 2,520㎡"},
@@ -161,14 +182,14 @@ SHELTERS = [
 ]
 
 # ---------------------------------------------------------
-# 4. 高速キャッシュ付き API 取得関数群
+# 4. 軽量・高耐久データ処理関数群
 # ---------------------------------------------------------
 @st.cache_data(ttl=600, show_spinner=False)
 def fetch_hachioji_jma_warning():
     url = "https://www.jma.go.jp/bosai/warning/data/warning/130000.json"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=1.5) as response:
+        with urllib.request.urlopen(req, timeout=1.2) as response:
             data = json.loads(response.read().decode('utf-8'))
             area_types = data.get("areaTypes", []) if isinstance(data, dict) else []
             for area_group in area_types:
@@ -196,22 +217,29 @@ def fetch_hachioji_jma_warning():
         pass
     return "レベル1", []
 
-@st.cache_data(ttl=3600, show_spinner=False)
+@st.cache_data(ttl=86400, show_spinner=False)
 def get_coords_from_address(address_text):
-    default_coords = [35.6558, 139.3389]  # デフォルト: 八王子駅周辺
-    if not address_text or address_text == "八王子駅周辺":
+    default_coords = [35.6558, 139.3389]
+    if not address_text:
         return default_coords
+
+    cleaned = address_text.strip()
+    # 1. ローカル辞書に一致する場合は外部APIへ通信せず即時返却（災害時最優先）
+    for key, coords in LOCAL_LANDMARKS.items():
+        if key in cleaned:
+            return coords
+
+    # 2. 辞書にない詳細住所のみ国土地理院APIへ短時間タイムアウトで照会
     try:
-        cleaned_text = address_text.strip()
-        cleaned_text = cleaned_text.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+        cleaned_text = cleaned.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
         cleaned_text = re.sub(r'[\d\-－丁目番号]+$', '', cleaned_text).strip()
         search_query = cleaned_text if cleaned_text else address_text
         if "八王子" not in search_query:
             search_query = "東京都八王子市 " + search_query
-            
+
         url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=" + urllib.parse.quote(search_query)
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=1.5) as response:
+        with urllib.request.urlopen(req, timeout=1.2) as response:
             data = json.loads(response.read().decode('utf-8'))
             if data and isinstance(data, list) and len(data) > 0:
                 lon, lat = data[0]['geometry']['coordinates']
@@ -228,30 +256,13 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
 
-@st.cache_data(ttl=3600, show_spinner=False)
-def get_route_osrm(start_lat, start_lon, end_lat, end_lon, profile='foot'):
-    try:
-        url = (
-            'http://router.project-osrm.org/route/v1/' + profile + '/'
-            + str(start_lon) + ',' + str(start_lat) + ';'
-            + str(end_lon) + ',' + str(end_lat) + '?overview=full&geometries=geojson'
-        )
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=1.5) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            if isinstance(data, dict) and data.get('routes'):
-                route = data['routes'][0]
-                geometry = route['geometry']['coordinates']
-                route_line = [[lat, lon] for lon, lat in geometry]
-                distance_km = route['distance'] / 1000.0
-                duration_min = math.ceil(route['duration'] / 60.0)
-                return route_line, distance_km, duration_min, False
-    except Exception:
-        pass
-    dist = calculate_distance(start_lat, start_lon, end_lat, end_lon)
-    speed = 4.0 if profile == 'foot' else (15.0 if profile == 'cycling' else 30.0)
-    walk_min = max(1, math.ceil((dist / speed) * 60))
-    return [[start_lat, start_lon], [end_lat, end_lon]], dist, walk_min, True
+def estimate_route_fast(start_lat, start_lon, end_lat, end_lon, profile='foot'):
+    # 外部ルートサーバーへの通信を廃止し、通信混雑時でも0.001秒で確実に算出
+    straight_dist = calculate_distance(start_lat, start_lon, end_lat, end_lon)
+    road_dist = straight_dist * 1.25  # 実際の道路迂回を考慮した距離係数
+    speed = 4.0 if profile == 'foot' else (15.0 if profile == 'cycling' else 25.0)
+    minutes = max(1, math.ceil((road_dist / speed) * 60))
+    return [[start_lat, start_lon], [end_lat, end_lon]], road_dist, minutes
 
 # ---------------------------------------------------------
 # 5. サイドバー
@@ -278,7 +289,6 @@ mode_opt = st.sidebar.radio(
     index=0
 )
 
-# 管理者・訓練用メニューは折りたたみ内に格納（本番公開時の誤操作防止）
 with st.sidebar.expander("⚙️ 訓練・テスト表示設定"):
     use_realtime = st.toggle("📡 気象庁API リアルタイム連動", value=True)
     if not use_realtime:
@@ -354,49 +364,38 @@ alert_card_html = (
 st.markdown(alert_card_html, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 7. 現在地取得（オンデマンドGPS）と住所検索エリア
+# 7. 自動現在地取得 ＋ 任意の場所検索
 # ---------------------------------------------------------
-st.markdown('<div class="search-title-text">📍 いまどこにいる？（住所・駅名入力 または GPSボタン）</div>', unsafe_allow_html=True)
+st.markdown('<div class="search-title-text">📍 別の場所から探す場合は駅名・住所を入力</div>', unsafe_allow_html=True)
 
-if "gps_active" not in st.session_state:
-    st.session_state.gps_active = False
-
-col_input, col_gps_btn = st.columns([3, 1])
-
-with col_input:
-    user_address_input = st.text_input(
-        "現在地入力フォーム",
-        value="",
-        placeholder="例：八王子駅、丹木町1丁目、南大沢、高尾 など",
-        label_visibility="collapsed"
-    )
-    if user_address_input.strip():
-        st.session_state.gps_active = False
-
-with col_gps_btn:
-    if st.button("📡 GPSで現在地取得", use_container_width=True):
-        st.session_state.gps_active = True
+user_address_input = st.text_input(
+    "出発地入力フォーム",
+    value="",
+    placeholder="空欄のときは現在地を自動表示（例：八王子駅、高尾駅、南大沢 など）",
+    label_visibility="collapsed"
+)
 
 current_coords = None
 display_address = ""
 
-if st.session_state.gps_active and HAS_GPS_LIB:
-    location = get_geolocation()
-    if location and isinstance(location, dict) and 'coords' in location:
-        lat = location['coords']['latitude']
-        lon = location['coords']['longitude']
-        current_coords = [lat, lon]
-        display_address = "現在地（GPS自動取得）"
-        st.success("📍 GPSで現在地を取得しました！")
-    else:
-        st.info("⏳ ブラウザの位置情報許可を待っています...（許可されない場合は左の欄に住所を入力してください）")
+# 入力欄が空欄の場合、ブラウザの現在地を自動取得（ボタン不要）
+if not user_address_input.strip() and HAS_GPS_LIB:
+    try:
+        location = get_geolocation()
+        if location and isinstance(location, dict) and 'coords' in location:
+            lat = location['coords']['latitude']
+            lon = location['coords']['longitude']
+            current_coords = [lat, lon]
+            display_address = "現在地（自動取得）"
+    except Exception:
+        pass
 
 if current_coords is None:
-    display_address = user_address_input if user_address_input.strip() else "八王子駅周辺"
-    current_coords = get_coords_from_address(display_address)
+    display_address = user_address_input.strip() if user_address_input.strip() else "八王子駅周辺（位置情報未許可時の初期表示）"
+    current_coords = get_coords_from_address(user_address_input.strip())
 
 # ---------------------------------------------------------
-# 8. 最寄り避難所（上位3件）計算＆ルート検索
+# 8. 最寄り避難所（上位3件）高速計算
 # ---------------------------------------------------------
 shelters_with_dist = []
 for shelter in SHELTERS:
@@ -406,8 +405,7 @@ for shelter in SHELTERS:
 shelters_with_dist.sort(key=lambda x: x[0])
 top3_shelters = [item[1] for item in shelters_with_dist[:3]]
 
-# 候補選択UI（第1候補が満員・通行止めの場合に備える）
-shelter_options = [f"第{i+1}候補：{s['name']}（直線約{round(shelters_with_dist[i][0], 1)}km）" for i, s in enumerate(top3_shelters)]
+shelter_options = [f"第{i+1}候補：{s['name']}（約{round(shelters_with_dist[i][0] * 1.25, 1)}km）" for i, s in enumerate(top3_shelters)]
 selected_shelter_idx = st.selectbox(
     "避難先候補を選択（混雑や通行止め時は第2・第3候補へ切り替え可能）",
     range(len(top3_shelters)),
@@ -419,14 +417,13 @@ mode_map = {'徒歩 (推奨)': 'foot', '自転車': 'cycling', '車 (緊急時�
 gmap_mode_map = {'徒歩 (推奨)': 'walking', '自転車': 'bicycling', '車 (緊急時のみ)': 'driving'}
 mode_profile = mode_map[mode_opt]
 
-route_line, real_dist, real_minutes, is_fallback = get_route_osrm(
+route_line, real_dist, real_minutes = estimate_route_fast(
     current_coords[0], current_coords[1],
     target_shelter["coords"][0], target_shelter["coords"][1],
     mode_profile
 )
 mode_label = mode_opt.split(' ')[0]
 
-# Googleマップ外部ナビ起動URL生成
 gmap_url = (
     f"https://www.google.com/maps/dir/?api=1"
     f"&origin={current_coords[0]},{current_coords[1]}"
@@ -438,12 +435,12 @@ col1, col2 = st.columns([1.3, 0.7])
 with col1:
     nav_html = (
         '<div class="nav-card-box">'
-        '<div class="current-pos-badge">📍 現在の検索位置</div>'
+        '<div class="current-pos-badge">📍 出発地点</div>'
         '<div class="current-pos-name">' + display_address + '</div>'
         '<div class="target-shelter-badge">🏃‍♂️ 選択中の避難所（第' + str(selected_shelter_idx + 1) + '候補）</div>'
         '<div class="dest-shelter-title">' + target_shelter["name"] + '</div>'
         '<div class="dest-shelter-sub">所在地・区分：' + target_shelter["sub"] + '（' + target_shelter["cap"] + '）</div>'
-        '<div><span class="route-info-pill">' + mode_label + 'ルート：約 ' + str(round(real_dist, 1)) + ' km / 約 ' + str(real_minutes) + ' 分</span></div>'
+        '<div><span class="route-info-pill">' + mode_label + '目安：約 ' + str(round(real_dist, 1)) + ' km / 約 ' + str(real_minutes) + ' 分</span></div>'
         '<a href="' + gmap_url + '" target="_blank" class="gmap-btn">🧭 スマホの地図アプリでナビを開始する</a>'
         '</div>'
     )
@@ -460,19 +457,17 @@ with col2:
     )
     st.markdown(yellow_html, unsafe_allow_html=True)
 
-st.markdown('<div class="map-title-bar">🗺️ 八王子市 避難ルートマップ（周辺候補も表示）</div>', unsafe_allow_html=True)
+st.markdown('<div class="map-title-bar">🗺️ 八王子市 避難マップ（周辺候補も表示）</div>', unsafe_allow_html=True)
 
 m = folium.Map(location=current_coords, zoom_start=14, tiles="OpenStreetMap")
 
-# 現在地マーカー
 folium.Marker(
     location=current_coords,
-    popup="現在地: " + display_address,
-    tooltip="現在地",
+    popup="出発地点: " + display_address,
+    tooltip="出発地点",
     icon=folium.Icon(color="red", icon="info-sign")
 ).add_to(m)
 
-# 上位3避難所マーカー（選択中は緑、それ以外は青）
 for idx, s in enumerate(top3_shelters):
     is_selected = (idx == selected_shelter_idx)
     folium.Marker(
@@ -482,17 +477,16 @@ for idx, s in enumerate(top3_shelters):
         icon=folium.Icon(color="green" if is_selected else "blue", icon="home")
     ).add_to(m)
 
-# ルート線描画
 folium.PolyLine(
     locations=route_line,
     color="#00A86B",
-    weight=6,
-    opacity=0.85,
-    dash_array="6, 6" if is_fallback else None,
-    tooltip=mode_label + "避難ルート"
+    weight=5,
+    opacity=0.8,
+    dash_array="8, 8",
+    tooltip=mode_label + "避難方向"
 ).add_to(m)
 
-st_folium(m, width="100%", height=440, returned_objects=[])
+st_folium(m, width="100%", height=420, returned_objects=[])
 
 # ---------------------------------------------------------
 # 9. 緊急連絡先＆免責フッターエリア
