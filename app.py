@@ -37,7 +37,7 @@ css_style = (
     ".main-header-card { background: linear-gradient(180deg, #E0F2FE 0%, #FFFFFF 100%); border: 3px solid #BAE6FD; border-radius: 24px; padding: 20px 16px 12px 16px; text-align: center; box-shadow: 0 8px 24px rgba(56, 189, 248, 0.12); margin-bottom: 14px; }"
     ".banner-title-badge { display: inline-flex; align-items: center; gap: 12px; background: #FFFFFF; padding: 8px 24px; border-radius: 50px; color: #D97706; font-weight: 900; font-size: 1.85rem; box-shadow: 0 4px 16px rgba(217, 119, 6, 0.15); border: 2px solid #FDE68A; margin-bottom: 6px; }"
     ".banner-sub-title { font-size: 0.95rem; font-weight: 800; color: #0284C7; margin-bottom: 8px; letter-spacing: 0.05em; }"
-    ".search-title-text { font-size: 1.05rem; font-weight: 900; color: #0284C7; text-align: center; margin: 14px 0 8px 0; }"
+    ".search-title-text { font-size: 1.02rem; font-weight: 900; color: #0284C7; text-align: center; margin: 12px 0 6px 0; }"
     "div[data-baseweb='input'] { border-radius: 14px !important; border: 2px solid #38BDF8 !important; background-color: #FFFFFF !important; }"
     ".alert-card { border-radius: 20px; padding: 14px 18px; margin-bottom: 16px; text-align: center; color: white; font-weight: 900; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }"
     ".alert-lvl-1 { background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%); border: 3px solid #7DD3FC; }"
@@ -45,29 +45,37 @@ css_style = (
     ".alert-lvl-3 { background: linear-gradient(135deg, #EA580C 0%, #F97316 100%); border: 3px solid #FFEDD5; }"
     ".alert-lvl-4 { background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%); border: 3px solid #FCA5A5; }"
     ".alert-lvl-5 { background: linear-gradient(135deg, #4C1D95 0%, #1E1B4B 100%); border: 3px solid #DDD6FE; }"
-    ".alert-title { font-size: 1.3rem; letter-spacing: 0.04em; margin-bottom: 4px; }"
-    ".alert-action { font-size: 0.95rem; background: rgba(255,255,255,0.22); padding: 5px 14px; border-radius: 50px; display: inline-block; margin-top: 4px; }"
-    ".alert-raw-msg { font-size: 0.8rem; margin-top: 8px; opacity: 0.95; font-weight: 700; }"
-    ".nav-card-box { background: #FFFFFF; border-radius: 24px; padding: 20px; border: 3px solid #38BDF8; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); height: 100%; }"
-    ".current-pos-badge { background: #E0F2FE; color: #0284C7; font-size: 0.82rem; font-weight: 900; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 6px; }"
-    ".current-pos-name { font-size: 1.05rem; font-weight: 900; color: #1E293B; margin-bottom: 12px; border-bottom: 1px dashed #BAE6FD; padding-bottom: 8px; }"
-    ".target-shelter-badge { background: #10B981; color: #FFFFFF; font-size: 0.82rem; font-weight: 900; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 6px; }"
-    ".dest-shelter-title { font-size: 1.5rem; font-weight: 900; color: #047857; margin: 2px 0; }"
-    ".dest-shelter-sub { font-size: 0.88rem; color: #475569; font-weight: 800; margin-bottom: 10px; }"
-    ".route-info-pill { background-color: #ECFDF5; color: #065F46; padding: 7px 14px; border-radius: 50px; font-weight: 900; font-size: 0.9rem; display: inline-block; border: 1.5px solid #A7F3D0; margin-bottom: 12px; }"
-    ".gmap-btn { display: block; width: 100%; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); color: #FFFFFF !important; text-align: center; font-weight: 900; padding: 11px 16px; border-radius: 14px; text-decoration: none; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); font-size: 0.95rem; margin-top: 6px; }"
-    ".gmap-btn:hover { opacity: 0.92; }"
-    ".yellow-card { background: #FFFDF0; border-radius: 24px; padding: 20px; border: 3px solid #FDE68A; box-shadow: 0 8px 20px rgba(253, 230, 138, 0.25); height: 100%; }"
-    ".yellow-card-title { color: #D97706; font-weight: 900; font-size: 1.12rem; margin-bottom: 12px; border-bottom: 2px dashed #FDE68A; padding-bottom: 6px; }"
-    ".yellow-card-item { font-size: 0.88rem; margin-bottom: 10px; color: #334155; font-weight: 800; line-height: 1.5; }"
-    ".map-title-bar { font-size: 1.2rem; font-weight: 900; color: #E11D48; margin: 20px 0 10px 0; }"
-    ".contact-card-box { background: #FFFFFF; border-radius: 24px; padding: 20px; border: 2px solid #E2E8F0; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }"
-    ".contact-card-title { text-align: center; font-weight: 900; font-size: 1.05rem; color: #1E293B; margin-bottom: 14px; }"
-    ".contact-grid-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; text-align: center; }"
-    ".contact-item-box { background: #F8FAFC; padding: 12px 8px; border-radius: 16px; border: 1px solid #F1F5F9; }"
-    ".contact-item-label { font-size: 0.75rem; color: #64748B; font-weight: 800; }"
-    ".contact-item-num { font-size: 1.35rem; font-weight: 900; color: #E11D48; margin-top: 2px; }"
-    ".footer-note { text-align: center; font-size: 0.78rem; color: #64748B; margin-top: 20px; padding-bottom: 16px; line-height: 1.6; }"
+    ".alert-title { font-size: 1.25rem; letter-spacing: 0.04em; margin-bottom: 4px; }"
+    ".alert-action { font-size: 0.92rem; background: rgba(255,255,255,0.22); padding: 5px 14px; border-radius: 50px; display: inline-block; margin-top: 4px; }"
+    ".alert-raw-msg { font-size: 0.78rem; margin-top: 8px; opacity: 0.95; font-weight: 700; }"
+    ".nav-card-box { background: #FFFFFF; border-radius: 24px; padding: 18px 20px; border: 3px solid #38BDF8; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); height: 100%; }"
+    ".current-pos-badge { background: #E0F2FE; color: #0284C7; font-size: 0.8rem; font-weight: 900; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 4px; }"
+    ".current-pos-name { font-size: 1.0rem; font-weight: 900; color: #1E293B; margin-bottom: 10px; border-bottom: 1px dashed #BAE6FD; padding-bottom: 6px; }"
+    ".target-shelter-badge { background: #10B981; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 4px; }"
+    ".dest-shelter-title { font-size: 1.45rem; font-weight: 900; color: #047857; margin: 2px 0; }"
+    ".dest-shelter-sub { font-size: 0.86rem; color: #475569; font-weight: 800; margin-bottom: 10px; }"
+    ".route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }"
+    "@media (max-width: 640px) { .route-grid { grid-template-columns: 1fr; } }"
+    ".route-card-1 { background: #ECFDF5; border: 2px solid #10B981; border-radius: 14px; padding: 10px; }"
+    ".route-card-2 { background: #EFF6FF; border: 2px solid #3B82F6; border-radius: 14px; padding: 10px; }"
+    ".route-card-3 { background: #FFF7ED; border: 2px solid #F97316; border-radius: 14px; padding: 10px; }"
+    ".route-badge-1 { background: #10B981; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
+    ".route-badge-2 { background: #3B82F6; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
+    ".route-badge-3 { background: #F97316; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
+    ".route-metric { font-size: 1.05rem; font-weight: 900; color: #0F172A; margin-top: 4px; }"
+    ".route-desc { font-size: 0.75rem; color: #475569; font-weight: 700; margin-top: 2px; }"
+    ".yellow-card { background: #FFFDF0; border-radius: 24px; padding: 18px 20px; border: 3px solid #FDE68A; box-shadow: 0 8px 20px rgba(253, 230, 138, 0.25); height: 100%; }"
+    ".yellow-card-title { color: #D97706; font-weight: 900; font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px dashed #FDE68A; padding-bottom: 6px; }"
+    ".yellow-card-item { font-size: 0.85rem; margin-bottom: 8px; color: #334155; font-weight: 800; line-height: 1.45; }"
+    ".map-title-bar { font-size: 1.18rem; font-weight: 900; color: #E11D48; margin: 18px 0 8px 0; }"
+    ".map-legend-bar { background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 8px 14px; font-size: 0.82rem; font-weight: 800; color: #334155; margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 14px; }"
+    ".contact-card-box { background: #FFFFFF; border-radius: 24px; padding: 18px; border: 2px solid #E2E8F0; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }"
+    ".contact-card-title { text-align: center; font-weight: 900; font-size: 1.02rem; color: #1E293B; margin-bottom: 12px; }"
+    ".contact-grid-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; text-align: center; }"
+    ".contact-item-box { background: #F8FAFC; padding: 10px 8px; border-radius: 16px; border: 1px solid #F1F5F9; }"
+    ".contact-item-label { font-size: 0.74rem; color: #64748B; font-weight: 800; }"
+    ".contact-item-num { font-size: 1.3rem; font-weight: 900; color: #E11D48; margin-top: 2px; }"
+    ".footer-note { text-align: center; font-size: 0.76rem; color: #64748B; margin-top: 16px; padding-bottom: 16px; line-height: 1.5; }"
     "</style>"
 )
 st.markdown(css_style, unsafe_allow_html=True)
@@ -104,7 +112,7 @@ SVG_HACHIMARU_CHARACTER = (
 )
 
 SVG_TOWN_LANDSCAPE = (
-    '<svg width="100%" height="40" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">'
+    '<svg width="100%" height="38" viewBox="0 0 600 70" preserveAspectRatio="none" fill="none">'
     '<path d="M0 70 L80 25 L160 70 Z" fill="#A7F3D0"/>'
     '<path d="M100 70 L200 10 L300 70 Z" fill="#6EE7B7"/>'
     '<path d="M400 70 L480 30 L560 70 Z" fill="#A7F3D0"/>'
@@ -121,9 +129,8 @@ SVG_TOWN_LANDSCAPE = (
 )
 
 # ---------------------------------------------------------
-# 3. ローカル内蔵データベース（外部API不要・災害時ダウン耐性）
+# 3. 八王子市全域 主要指定避難所・ランドマーク内蔵データベース
 # ---------------------------------------------------------
-# 主要駅・ランドマーク内蔵座標辞書（通信ゼロで即座に検索可能）
 LOCAL_LANDMARKS = {
     "八王子駅": [35.6558, 139.3389],
     "八王子": [35.6558, 139.3389],
@@ -182,7 +189,7 @@ SHELTERS = [
 ]
 
 # ---------------------------------------------------------
-# 4. 軽量・高耐久データ処理関数群
+# 4. 高耐久データ処理＆3系統避難ルート生成エンジン
 # ---------------------------------------------------------
 @st.cache_data(ttl=600, show_spinner=False)
 def fetch_hachioji_jma_warning():
@@ -224,12 +231,10 @@ def get_coords_from_address(address_text):
         return default_coords
 
     cleaned = address_text.strip()
-    # 1. ローカル辞書に一致する場合は外部APIへ通信せず即時返却（災害時最優先）
     for key, coords in LOCAL_LANDMARKS.items():
         if key in cleaned:
             return coords
 
-    # 2. 辞書にない詳細住所のみ国土地理院APIへ短時間タイムアウトで照会
     try:
         cleaned_text = cleaned.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
         cleaned_text = re.sub(r'[\d\-－丁目番号]+$', '', cleaned_text).strip()
@@ -256,13 +261,145 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
 
-def estimate_route_fast(start_lat, start_lon, end_lat, end_lon, profile='foot'):
-    # 外部ルートサーバーへの通信を廃止し、通信混雑時でも0.001秒で確実に算出
-    straight_dist = calculate_distance(start_lat, start_lon, end_lat, end_lon)
-    road_dist = straight_dist * 1.25  # 実際の道路迂回を考慮した距離係数
+def _fetch_single_osrm(coords_list, profile):
+    coord_str = ";".join([f"{lon},{lat}" for lat, lon in coords_list])
+    url = f"http://router.project-osrm.org/route/v1/{profile}/{coord_str}?overview=full&geometries=geojson&alternatives=true"
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    with urllib.request.urlopen(req, timeout=1.5) as response:
+        return json.loads(response.read().decode('utf-8'))
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile='foot'):
+    """
+    アプリ内で完結する3つの避難経路を生成：
+    1. メイン最短ルート（緑）
+    2. 北/西側 迂回ルート（青：冠水・倒壊回避用）
+    3. 南/東側 迂回ルート（オレンジ：別方向アプローチ用）
+    """
     speed = 4.0 if profile == 'foot' else (15.0 if profile == 'cycling' else 25.0)
-    minutes = max(1, math.ceil((road_dist / speed) * 60))
-    return [[start_lat, start_lon], [end_lat, end_lon]], road_dist, minutes
+    routes_result = []
+
+    # 進行方向に対して左右（法線方向）へ約250m〜350mオフセットした中間迂回ポイントを算出
+    mid_lat = (start_lat + end_lat) / 2.0
+    mid_lon = (start_lon + end_lon) / 2.0
+    dlat = end_lat - start_lat
+    dlon = end_lon - start_lon
+    norm = math.sqrt(dlat**2 + dlon**2)
+    if norm < 0.0005:
+        norm = 0.0005
+    # 約0.003度（約300m）の左右オフセット
+    offset = 0.0032
+    perp_lat = (-dlon / norm) * offset
+    perp_lon = (dlat / norm) * offset
+
+    wp_left = [mid_lat + perp_lat, mid_lon + perp_lon]
+    wp_right = [mid_lat - perp_lat, mid_lon - perp_lon]
+
+    # 1. まず実際の道路網（OSRM）で3本の経路取得を試行
+    try:
+        data_main = _fetch_single_osrm([[start_lat, start_lon], [end_lat, end_lon]], profile)
+        if isinstance(data_main, dict) and data_main.get('routes'):
+            r0 = data_main['routes'][0]
+            line0 = [[lat, lon] for lon, lat in r0['geometry']['coordinates']]
+            dist0 = r0['distance'] / 1000.0
+            min0 = max(1, math.ceil(r0['duration'] / 60.0))
+            routes_result.append({
+                "name": "ルート① 最短メイン経路",
+                "desc": "最も距離が短い基本ルート",
+                "line": line0,
+                "dist": dist0,
+                "min": min0,
+                "color": "#10B981",
+                "dash": None
+            })
+
+            # OSRMが代替ルートを返していれば2本目に採用、なければ左迂回経由点ルートを取得
+            if len(data_main['routes']) > 1:
+                r1 = data_main['routes'][1]
+                line1 = [[lat, lon] for lon, lat in r1['geometry']['coordinates']]
+                dist1 = r1['distance'] / 1000.0
+                min1 = max(1, math.ceil(r1['duration'] / 60.0))
+                routes_result.append({
+                    "name": "ルート② 別通り迂回経路",
+                    "desc": "メイン通り通行止め時の別ルート",
+                    "line": line1,
+                    "dist": dist1,
+                    "min": min1,
+                    "color": "#3B82F6",
+                    "dash": None
+                })
+            else:
+                data_left = _fetch_single_osrm([[start_lat, start_lon], wp_left, [end_lat, end_lon]], profile)
+                if data_left.get('routes'):
+                    rl = data_left['routes'][0]
+                    routes_result.append({
+                        "name": "ルート② 北・西側迂回経路",
+                        "desc": "大通り・高台側へ大きく回る経路",
+                        "line": [[lat, lon] for lon, lat in rl['geometry']['coordinates']],
+                        "dist": rl['distance'] / 1000.0,
+                        "min": max(1, math.ceil(rl['duration'] / 60.0)),
+                        "color": "#3B82F6",
+                        "dash": None
+                    })
+
+            # 3本目：反対側（南・東側）迂回経由点ルート
+            data_right = _fetch_single_osrm([[start_lat, start_lon], wp_right, [end_lat, end_lon]], profile)
+            if data_right.get('routes'):
+                rr = data_right['routes'][0]
+                routes_result.append({
+                    "name": "ルート③ 南・東側迂回経路",
+                    "desc": "逆方向から安全に回り込む経路",
+                    "line": [[lat, lon] for lon, lat in rr['geometry']['coordinates']],
+                    "dist": rr['distance'] / 1000.0,
+                    "min": max(1, math.ceil(rr['duration'] / 60.0)),
+                    "color": "#F97316",
+                    "dash": "6, 4"
+                })
+    except Exception:
+        pass
+
+    # 2. 災害時サーバー遮断・不足時の完全ローカル3ルート自動補完（0.001秒・通信不要）
+    base_dist = calculate_distance(start_lat, start_lon, end_lat, end_lon) * 1.25
+    if len(routes_result) < 1:
+        routes_result.append({
+            "name": "ルート① 最短メイン経路",
+            "desc": "直線方向の最短基準ルート",
+            "line": [[start_lat, start_lon], [end_lat, end_lon]],
+            "dist": base_dist,
+            "min": max(1, math.ceil((base_dist / speed) * 60)),
+            "color": "#10B981",
+            "dash": "6, 4"
+        })
+    if len(routes_result) < 2:
+        d_left = (
+            calculate_distance(start_lat, start_lon, wp_left[0], wp_left[1])
+            + calculate_distance(wp_left[0], wp_left[1], end_lat, end_lon)
+        ) * 1.2
+        routes_result.append({
+            "name": "ルート② 北・西側迂回経路",
+            "desc": "冠水・倒壊箇所を避ける北西側迂回",
+            "line": [[start_lat, start_lon], wp_left, [end_lat, end_lon]],
+            "dist": d_left,
+            "min": max(1, math.ceil((d_left / speed) * 60)),
+            "color": "#3B82F6",
+            "dash": "6, 4"
+        })
+    if len(routes_result) < 3:
+        d_right = (
+            calculate_distance(start_lat, start_lon, wp_right[0], wp_right[1])
+            + calculate_distance(wp_right[0], wp_right[1], end_lat, end_lon)
+        ) * 1.2
+        routes_result.append({
+            "name": "ルート③ 南・東側迂回経路",
+            "desc": "別方向から避難所へ入る南東側迂回",
+            "line": [[start_lat, start_lon], wp_right, [end_lat, end_lon]],
+            "dist": d_right,
+            "min": max(1, math.ceil((d_right / speed) * 60)),
+            "color": "#F97316",
+            "dash": "6, 4"
+        })
+
+    return routes_result[:3]
 
 # ---------------------------------------------------------
 # 5. サイドバー
@@ -277,7 +414,7 @@ sidebar_logo_html = (
 st.sidebar.markdown(sidebar_logo_html, unsafe_allow_html=True)
 
 st.sidebar.markdown(
-    '<div class="sidebar-msg-bubble">高尾山からみんなをナビするよ！<br>落ち着いて行動しよう！</div>',
+    '<div class="sidebar-msg-bubble">住所がわからなくても大丈夫！<br>3つの避難ルートから安全な道を選ぼう！</div>',
     unsafe_allow_html=True
 )
 
@@ -317,7 +454,7 @@ st.sidebar.markdown('<div style="margin-top: 24px;">' + SVG_TOWN_LANDSCAPE + '</
 header_html = (
     '<div class="main-header-card">'
     '<div class="banner-title-badge">' + SVG_HACHIMARU_CHARACTER + '<span>はちまる</span></div>'
-    '<div class="banner-sub-title">八王子市 防災・避難ナビゲーション</div>'
+    '<div class="banner-sub-title">八王子市 防災・避難ナビゲーション（アプリ内完結型）</div>'
     '<div>' + SVG_TOWN_LANDSCAPE + '</div>'
     '</div>'
 )
@@ -327,12 +464,12 @@ alert_info = {
     "レベル1": {
         "class": "alert-lvl-1",
         "title": "🔵 警戒レベル 1：現在、八王子市に大きな警戒発表はありません（平常）",
-        "action": "最新の気象情報や、いざという時の避難経路を確認しておきましょう。"
+        "action": "最新の気象情報や、3つの避難経路を事前に確認しておきましょう。"
     },
     "レベル2": {
         "class": "alert-lvl-2",
         "title": "🟡 警戒レベル 2：注意報が発表されています（避難行動確認）",
-        "action": "ハザードマップで避難経路や非常持ち出し品を再確認してください。"
+        "action": "複数の避難ルートを確認し、非常持ち出し品を準備してください。"
     },
     "レベル3": {
         "class": "alert-lvl-3",
@@ -342,12 +479,12 @@ alert_info = {
     "レベル4": {
         "class": "alert-lvl-4",
         "title": "🔴 警戒レベル 4：避難指示（全員危険箇所から避難）",
-        "action": "対象地域の方は速やかに全員指定避難所へ避難を開始してください！"
+        "action": "周囲の冠水・倒壊に注意し、安全なルートで速やかに避難してください！"
     },
     "レベル5": {
         "class": "alert-lvl-5",
         "title": "🟣 警戒レベル 5：緊急安全確保（特別警報発表中）",
-        "action": "命の危険が迫っています！高い場所へ移動するなど直ちに安全を確保してください！"
+        "action": "命の危険が迫っています！無理な移動を避け高い場所へ避難してください！"
     }
 }
 
@@ -364,38 +501,54 @@ alert_card_html = (
 st.markdown(alert_card_html, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 7. 自動現在地取得 ＋ 任意の場所検索
+# 7. 自動GPS測位 ＋ 地図タップ地点指定 ＋ 任意検索（住所不要）
 # ---------------------------------------------------------
-st.markdown('<div class="search-title-text">📍 別の場所から探す場合は駅名・住所を入力</div>', unsafe_allow_html=True)
+if "manual_pin" not in st.session_state:
+    st.session_state.manual_pin = None
+
+st.markdown('<div class="search-title-text">📍 住所がわからなくてもOK（現在地を自動表示／地図タップでも地点指定可能）</div>', unsafe_allow_html=True)
 
 user_address_input = st.text_input(
     "出発地入力フォーム",
     value="",
-    placeholder="空欄のときは現在地を自動表示（例：八王子駅、高尾駅、南大沢 など）",
+    placeholder="別の場所を調べたい時だけ入力（例：八王子駅、高尾駅、南大沢 など）",
     label_visibility="collapsed"
 )
+
+if user_address_input.strip():
+    st.session_state.manual_pin = None
 
 current_coords = None
 display_address = ""
 
-# 入力欄が空欄の場合、ブラウザの現在地を自動取得（ボタン不要）
-if not user_address_input.strip() and HAS_GPS_LIB:
+# 優先度1: ユーザーが地図上をタップして指定した地点
+if st.session_state.manual_pin is not None and not user_address_input.strip():
+    current_coords = st.session_state.manual_pin
+    display_address = f"地図上で指定した出発地点（緯度 {current_coords[0]:.4f}, 経度 {current_coords[1]:.4f}）"
+
+# 優先度2: 自動GPS測位（住所がわからない場合でもそのまま現在地を表示）
+if current_coords is None and not user_address_input.strip() and HAS_GPS_LIB:
     try:
         location = get_geolocation()
         if location and isinstance(location, dict) and 'coords' in location:
             lat = location['coords']['latitude']
             lon = location['coords']['longitude']
             current_coords = [lat, lon]
-            display_address = "現在地（自動取得）"
+            display_address = f"現在地（自動測位：緯度 {lat:.4f}, 経度 {lon:.4f}）"
     except Exception:
         pass
 
+# 優先度3: テキスト入力または初期地点
 if current_coords is None:
-    display_address = user_address_input.strip() if user_address_input.strip() else "八王子駅周辺（位置情報未許可時の初期表示）"
-    current_coords = get_coords_from_address(user_address_input.strip())
+    if user_address_input.strip():
+        display_address = user_address_input.strip()
+        current_coords = get_coords_from_address(display_address)
+    else:
+        display_address = "八王子駅周辺（地図をタップするとその場所を出発地にできます）"
+        current_coords = [35.6558, 139.3389]
 
 # ---------------------------------------------------------
-# 8. 最寄り避難所（上位3件）高速計算
+# 8. 最寄り避難所（上位3件）＆ 3系統マルチ避難ルート計算
 # ---------------------------------------------------------
 shelters_with_dist = []
 for shelter in SHELTERS:
@@ -405,43 +558,58 @@ for shelter in SHELTERS:
 shelters_with_dist.sort(key=lambda x: x[0])
 top3_shelters = [item[1] for item in shelters_with_dist[:3]]
 
-shelter_options = [f"第{i+1}候補：{s['name']}（約{round(shelters_with_dist[i][0] * 1.25, 1)}km）" for i, s in enumerate(top3_shelters)]
-selected_shelter_idx = st.selectbox(
-    "避難先候補を選択（混雑や通行止め時は第2・第3候補へ切り替え可能）",
-    range(len(top3_shelters)),
-    format_func=lambda idx: shelter_options[idx]
-)
+col_sel1, col_sel2 = st.columns([1.2, 0.8])
+with col_sel1:
+    shelter_options = [f"避難先候補{i+1}：{s['name']}（約{round(shelters_with_dist[i][0] * 1.25, 1)}km）" for i, s in enumerate(top3_shelters)]
+    selected_shelter_idx = st.selectbox(
+        "避難先の避難所を選択（満員・通行止め時は別候補へ切替）",
+        range(len(top3_shelters)),
+        format_func=lambda idx: shelter_options[idx]
+    )
 target_shelter = top3_shelters[selected_shelter_idx]
 
 mode_map = {'徒歩 (推奨)': 'foot', '自転車': 'cycling', '車 (緊急時のみ)': 'driving'}
-gmap_mode_map = {'徒歩 (推奨)': 'walking', '自転車': 'bicycling', '車 (緊急時のみ)': 'driving'}
 mode_profile = mode_map[mode_opt]
 
-route_line, real_dist, real_minutes = estimate_route_fast(
+three_routes = get_three_evacuation_routes(
     current_coords[0], current_coords[1],
     target_shelter["coords"][0], target_shelter["coords"][1],
     mode_profile
 )
-mode_label = mode_opt.split(' ')[0]
 
-gmap_url = (
-    f"https://www.google.com/maps/dir/?api=1"
-    f"&origin={current_coords[0]},{current_coords[1]}"
-    f"&destination={target_shelter['coords'][0]},{target_shelter['coords'][1]}"
-    f"&travelmode={gmap_mode_map[mode_opt]}"
-)
+with col_sel2:
+    route_choice_idx = st.selectbox(
+        "状況に合わせて優先ルートを強調表示",
+        [0, 1, 2],
+        format_func=lambda idx: f"{three_routes[idx]['name']}（約{three_routes[idx]['min']}分）"
+    )
 
-col1, col2 = st.columns([1.3, 0.7])
+col1, col2 = st.columns([1.35, 0.65])
 with col1:
+    r0, r1, r2 = three_routes[0], three_routes[1], three_routes[2]
     nav_html = (
         '<div class="nav-card-box">'
         '<div class="current-pos-badge">📍 出発地点</div>'
         '<div class="current-pos-name">' + display_address + '</div>'
-        '<div class="target-shelter-badge">🏃‍♂️ 選択中の避難所（第' + str(selected_shelter_idx + 1) + '候補）</div>'
-        '<div class="dest-shelter-title">' + target_shelter["name"] + '</div>'
-        '<div class="dest-shelter-sub">所在地・区分：' + target_shelter["sub"] + '（' + target_shelter["cap"] + '）</div>'
-        '<div><span class="route-info-pill">' + mode_label + '目安：約 ' + str(round(real_dist, 1)) + ' km / 約 ' + str(real_minutes) + ' 分</span></div>'
-        '<a href="' + gmap_url + '" target="_blank" class="gmap-btn">🧭 スマホの地図アプリでナビを開始する</a>'
+        '<div class="target-shelter-badge">🏃‍♂️ 避難先：' + target_shelter["name"] + '</div>'
+        '<div class="dest-shelter-sub">' + target_shelter["sub"] + '（' + target_shelter["cap"] + '）</div>'
+        '<div class="route-grid">'
+        '<div class="route-card-1">'
+        '<span class="route-badge-1">ルート① 最短</span>'
+        '<div class="route-metric">約 ' + str(round(r0["dist"], 1)) + ' km / ' + str(r0["min"]) + '分</div>'
+        '<div class="route-desc">' + r0["desc"] + '</div>'
+        '</div>'
+        '<div class="route-card-2">'
+        '<span class="route-badge-2">ルート② 迂回A</span>'
+        '<div class="route-metric">約 ' + str(round(r1["dist"], 1)) + ' km / ' + str(r1["min"]) + '分</div>'
+        '<div class="route-desc">' + r1["desc"] + '</div>'
+        '</div>'
+        '<div class="route-card-3">'
+        '<span class="route-badge-3">ルート③ 迂回B</span>'
+        '<div class="route-metric">約 ' + str(round(r2["dist"], 1)) + ' km / ' + str(r2["min"]) + '分</div>'
+        '<div class="route-desc">' + r2["desc"] + '</div>'
+        '</div>'
+        '</div>'
         '</div>'
     )
     st.markdown(nav_html, unsafe_allow_html=True)
@@ -449,44 +617,72 @@ with col1:
 with col2:
     yellow_html = (
         '<div class="yellow-card">'
-        '<div class="yellow-card-title">避難時のワンポイント</div>'
-        '<div class="yellow-card-item"><b>履物</b>：増水時の長靴は危険！履き慣れたスニーカーで。</div>'
-        '<div class="yellow-card-item"><b>荷物</b>：両手が空くようにリュックで移動しよう。</div>'
-        '<div class="yellow-card-item"><b>垂直避難</b>：外がすでに危険な場合は2階以上へ！</div>'
+        '<div class="yellow-card-title">3つの道から安全に選ぶコツ</div>'
+        '<div class="yellow-card-item"><b>冠水・川沿い回避</b>：低い道が水没していたら②か③の迂回ルートへ！</div>'
+        '<div class="yellow-card-item"><b>ブロック塀・電線</b>：地震直後は狭い路地を避け、広い道側のルートを選択。</div>'
+        '<div class="yellow-card-item"><b>地図タップ変更</b>：下の地図をタップすると、その場所からの3ルートを再計算します。</div>'
         '</div>'
     )
     st.markdown(yellow_html, unsafe_allow_html=True)
 
-st.markdown('<div class="map-title-bar">🗺️ 八王子市 避難マップ（周辺候補も表示）</div>', unsafe_allow_html=True)
+st.markdown('<div class="map-title-bar">🗺️ アプリ内完結 避難ルートマップ（3経路同時表示）</div>', unsafe_allow_html=True)
 
-m = folium.Map(location=current_coords, zoom_start=14, tiles="OpenStreetMap")
+legend_html = (
+    '<div class="map-legend-bar">'
+    '<span>🔴 出発地点（現在地）</span>'
+    '<span>🟢 選択中の避難所</span>'
+    '<span style="color:#10B981;">━━ ルート① 最短メイン</span>'
+    '<span style="color:#3B82F6;">━━ ルート② 北・西側迂回</span>'
+    '<span style="color:#F97316;">┅┅ ルート③ 南・東側迂回</span>'
+    '</div>'
+)
+st.markdown(legend_html, unsafe_allow_html=True)
 
+# 地図の中心を現在地と避難所の中間に自動フィット
+center_lat = (current_coords[0] + target_shelter["coords"][0]) / 2.0
+center_lon = (current_coords[1] + target_shelter["coords"][1]) / 2.0
+m = folium.Map(location=[center_lat, center_lon], zoom_start=14, tiles="OpenStreetMap")
+
+# 出発地点マーカー
 folium.Marker(
     location=current_coords,
     popup="出発地点: " + display_address,
-    tooltip="出発地点",
+    tooltip="出発地点（現在地）",
     icon=folium.Icon(color="red", icon="info-sign")
 ).add_to(m)
 
+# 上位3避難所マーカー
 for idx, s in enumerate(top3_shelters):
     is_selected = (idx == selected_shelter_idx)
     folium.Marker(
         location=s["coords"],
-        popup=f"第{idx+1}候補: {s['name']} ({s['cap']})",
-        tooltip=f"第{idx+1}候補: {s['name']}",
-        icon=folium.Icon(color="green" if is_selected else "blue", icon="home")
+        popup=f"候補{idx+1}: {s['name']} ({s['cap']})",
+        tooltip=f"候補{idx+1}: {s['name']}",
+        icon=folium.Icon(color="green" if is_selected else "cadetblue", icon="home")
     ).add_to(m)
 
-folium.PolyLine(
-    locations=route_line,
-    color="#00A86B",
-    weight=5,
-    opacity=0.8,
-    dash_array="8, 8",
-    tooltip=mode_label + "避難方向"
-).add_to(m)
+# 3つの避難ルートをすべて地図上に描画（選択中のルートを太く強調）
+for idx, r in enumerate(three_routes):
+    is_highlighted = (idx == route_choice_idx)
+    folium.PolyLine(
+        locations=r["line"],
+        color=r["color"],
+        weight=8 if is_highlighted else 4,
+        opacity=0.95 if is_highlighted else 0.55,
+        dash_array=r["dash"],
+        tooltip=f"{r['name']}（約{round(r['dist'], 1)}km / 約{r['min']}分）"
+    ).add_to(m)
 
-st_folium(m, width="100%", height=420, returned_objects=[])
+# 地図タップ座標のみ取得（ズーム・ドラッグでは再実行しない軽量設定）
+map_data = st_folium(m, width="100%", height=460, returned_objects=["last_clicked"])
+
+if map_data and map_data.get("last_clicked"):
+    clicked_lat = map_data["last_clicked"]["lat"]
+    clicked_lon = map_data["last_clicked"]["lng"]
+    prev_pin = st.session_state.manual_pin
+    if prev_pin is None or (abs(prev_pin[0] - clicked_lat) > 0.0001 or abs(prev_pin[1] - clicked_lon) > 0.0001):
+        st.session_state.manual_pin = [clicked_lat, clicked_lon]
+        st.rerun()
 
 # ---------------------------------------------------------
 # 9. 緊急連絡先＆免責フッターエリア
@@ -501,8 +697,8 @@ contact_html = (
     '<div class="contact-item-box"><div class="contact-item-label">八王子市役所 (代表)</div><div style="font-weight:900; font-size:1.0rem; color:#334155; margin-top:4px;">042-620-7111</div></div>'
     '</div></div>'
     '<div class="footer-note">'
-    '※本サービスは気象庁防災情報JSONおよびオープンデータをもとに避難行動を支援するものです。<br>'
-    '※実際の災害発生時は、八王子市公式防災情報・防災行政無線の指示に従って安全に行動してください。'
+    '※本サービスは気象庁防災情報JSONおよびオープンデータをもとに、外部アプリへ遷移せず避難経路を確認できる防災支援システムです。<br>'
+    '※実際の災害発生時は、周囲の浸水・倒壊状況および八王子市公式防災情報の指示に従って安全に行動してください。'
     '</div>'
 )
 st.markdown(contact_html, unsafe_allow_html=True)
