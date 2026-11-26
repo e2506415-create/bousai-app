@@ -51,24 +51,27 @@ css_style = (
     ".nav-card-box { background: #FFFFFF; border-radius: 24px; padding: 18px 20px; border: 3px solid #38BDF8; box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15); height: 100%; }"
     ".current-pos-badge { background: #E0F2FE; color: #0284C7; font-size: 0.8rem; font-weight: 900; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 4px; }"
     ".current-pos-name { font-size: 1.0rem; font-weight: 900; color: #1E293B; margin-bottom: 10px; border-bottom: 1px dashed #BAE6FD; padding-bottom: 6px; }"
-    ".target-shelter-badge { background: #10B981; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 4px; }"
+    ".target-shelter-badge { background: #059669; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 4px; }"
     ".dest-shelter-title { font-size: 1.45rem; font-weight: 900; color: #047857; margin: 2px 0; }"
     ".dest-shelter-sub { font-size: 0.86rem; color: #475569; font-weight: 800; margin-bottom: 10px; }"
     ".route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }"
     "@media (max-width: 640px) { .route-grid { grid-template-columns: 1fr; } }"
-    ".route-card-1 { background: #ECFDF5; border: 2px solid #10B981; border-radius: 14px; padding: 10px; }"
-    ".route-card-2 { background: #EFF6FF; border: 2px solid #3B82F6; border-radius: 14px; padding: 10px; }"
-    ".route-card-3 { background: #FFF7ED; border: 2px solid #F97316; border-radius: 14px; padding: 10px; }"
-    ".route-badge-1 { background: #10B981; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
-    ".route-badge-2 { background: #3B82F6; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
-    ".route-badge-3 { background: #F97316; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
+    ".route-card-1 { background: #ECFDF5; border: 2.5px solid #00A859; border-radius: 14px; padding: 10px; }"
+    ".route-card-2 { background: #EFF6FF; border: 2.5px solid #0055FF; border-radius: 14px; padding: 10px; }"
+    ".route-card-3 { background: #FFF1F2; border: 2.5px solid #E11D48; border-radius: 14px; padding: 10px; }"
+    ".route-badge-1 { background: #00A859; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
+    ".route-badge-2 { background: #0055FF; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
+    ".route-badge-3 { background: #E11D48; color: white; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 8px; display: inline-block; }"
     ".route-metric { font-size: 1.05rem; font-weight: 900; color: #0F172A; margin-top: 4px; }"
     ".route-desc { font-size: 0.75rem; color: #475569; font-weight: 700; margin-top: 2px; }"
     ".yellow-card { background: #FFFDF0; border-radius: 24px; padding: 18px 20px; border: 3px solid #FDE68A; box-shadow: 0 8px 20px rgba(253, 230, 138, 0.25); height: 100%; }"
     ".yellow-card-title { color: #D97706; font-weight: 900; font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px dashed #FDE68A; padding-bottom: 6px; }"
     ".yellow-card-item { font-size: 0.85rem; margin-bottom: 8px; color: #334155; font-weight: 800; line-height: 1.45; }"
     ".map-title-bar { font-size: 1.18rem; font-weight: 900; color: #E11D48; margin: 18px 0 8px 0; }"
-    ".map-legend-bar { background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 8px 14px; font-size: 0.82rem; font-weight: 800; color: #334155; margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 14px; }"
+    ".map-legend-bar { background: #FFFFFF; border: 2px solid #94A3B8; border-radius: 14px; padding: 10px 14px; font-size: 0.86rem; font-weight: 900; color: #0F172A; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }"
+    ".legend-line-1 { display: inline-block; width: 26px; height: 7px; background: #00A859; border: 1.5px solid #0F172A; border-radius: 4px; vertical-align: middle; margin-right: 4px; }"
+    ".legend-line-2 { display: inline-block; width: 26px; height: 7px; background: #0055FF; border: 1.5px solid #0F172A; border-radius: 4px; vertical-align: middle; margin-right: 4px; }"
+    ".legend-line-3 { display: inline-block; width: 26px; height: 7px; background: #E11D48; border: 1.5px solid #0F172A; border-radius: 4px; vertical-align: middle; margin-right: 4px; }"
     ".contact-card-box { background: #FFFFFF; border-radius: 24px; padding: 18px; border: 2px solid #E2E8F0; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }"
     ".contact-card-title { text-align: center; font-weight: 900; font-size: 1.02rem; color: #1E293B; margin-bottom: 12px; }"
     ".contact-grid-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; text-align: center; }"
@@ -270,16 +273,9 @@ def _fetch_single_osrm(coords_list, profile):
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile='foot'):
-    """
-    アプリ内で完結する3つの避難経路を生成：
-    1. メイン最短ルート（緑）
-    2. 北/西側 迂回ルート（青：冠水・倒壊回避用）
-    3. 南/東側 迂回ルート（オレンジ：別方向アプローチ用）
-    """
     speed = 4.0 if profile == 'foot' else (15.0 if profile == 'cycling' else 25.0)
     routes_result = []
 
-    # 進行方向に対して左右（法線方向）へ約250m〜350mオフセットした中間迂回ポイントを算出
     mid_lat = (start_lat + end_lat) / 2.0
     mid_lon = (start_lon + end_lon) / 2.0
     dlat = end_lat - start_lat
@@ -287,15 +283,13 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
     norm = math.sqrt(dlat**2 + dlon**2)
     if norm < 0.0005:
         norm = 0.0005
-    # 約0.003度（約300m）の左右オフセット
-    offset = 0.0032
+    offset = 0.0038
     perp_lat = (-dlon / norm) * offset
     perp_lon = (dlat / norm) * offset
 
     wp_left = [mid_lat + perp_lat, mid_lon + perp_lon]
     wp_right = [mid_lat - perp_lat, mid_lon - perp_lon]
 
-    # 1. まず実際の道路網（OSRM）で3本の経路取得を試行
     try:
         data_main = _fetch_single_osrm([[start_lat, start_lon], [end_lat, end_lon]], profile)
         if isinstance(data_main, dict) and data_main.get('routes'):
@@ -309,11 +303,9 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
                 "line": line0,
                 "dist": dist0,
                 "min": min0,
-                "color": "#10B981",
-                "dash": None
+                "color": "#00A859"
             })
 
-            # OSRMが代替ルートを返していれば2本目に採用、なければ左迂回経由点ルートを取得
             if len(data_main['routes']) > 1:
                 r1 = data_main['routes'][1]
                 line1 = [[lat, lon] for lon, lat in r1['geometry']['coordinates']]
@@ -325,8 +317,7 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
                     "line": line1,
                     "dist": dist1,
                     "min": min1,
-                    "color": "#3B82F6",
-                    "dash": None
+                    "color": "#0055FF"
                 })
             else:
                 data_left = _fetch_single_osrm([[start_lat, start_lon], wp_left, [end_lat, end_lon]], profile)
@@ -338,11 +329,9 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
                         "line": [[lat, lon] for lon, lat in rl['geometry']['coordinates']],
                         "dist": rl['distance'] / 1000.0,
                         "min": max(1, math.ceil(rl['duration'] / 60.0)),
-                        "color": "#3B82F6",
-                        "dash": None
+                        "color": "#0055FF"
                     })
 
-            # 3本目：反対側（南・東側）迂回経由点ルート
             data_right = _fetch_single_osrm([[start_lat, start_lon], wp_right, [end_lat, end_lon]], profile)
             if data_right.get('routes'):
                 rr = data_right['routes'][0]
@@ -352,13 +341,11 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
                     "line": [[lat, lon] for lon, lat in rr['geometry']['coordinates']],
                     "dist": rr['distance'] / 1000.0,
                     "min": max(1, math.ceil(rr['duration'] / 60.0)),
-                    "color": "#F97316",
-                    "dash": "6, 4"
+                    "color": "#E11D48"
                 })
     except Exception:
         pass
 
-    # 2. 災害時サーバー遮断・不足時の完全ローカル3ルート自動補完（0.001秒・通信不要）
     base_dist = calculate_distance(start_lat, start_lon, end_lat, end_lon) * 1.25
     if len(routes_result) < 1:
         routes_result.append({
@@ -367,8 +354,7 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
             "line": [[start_lat, start_lon], [end_lat, end_lon]],
             "dist": base_dist,
             "min": max(1, math.ceil((base_dist / speed) * 60)),
-            "color": "#10B981",
-            "dash": "6, 4"
+            "color": "#00A859"
         })
     if len(routes_result) < 2:
         d_left = (
@@ -381,8 +367,7 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
             "line": [[start_lat, start_lon], wp_left, [end_lat, end_lon]],
             "dist": d_left,
             "min": max(1, math.ceil((d_left / speed) * 60)),
-            "color": "#3B82F6",
-            "dash": "6, 4"
+            "color": "#0055FF"
         })
     if len(routes_result) < 3:
         d_right = (
@@ -395,8 +380,7 @@ def get_three_evacuation_routes(start_lat, start_lon, end_lat, end_lon, profile=
             "line": [[start_lat, start_lon], wp_right, [end_lat, end_lon]],
             "dist": d_right,
             "min": max(1, math.ceil((d_right / speed) * 60)),
-            "color": "#F97316",
-            "dash": "6, 4"
+            "color": "#E11D48"
         })
 
     return routes_result[:3]
@@ -454,7 +438,7 @@ st.sidebar.markdown('<div style="margin-top: 24px;">' + SVG_TOWN_LANDSCAPE + '</
 header_html = (
     '<div class="main-header-card">'
     '<div class="banner-title-badge">' + SVG_HACHIMARU_CHARACTER + '<span>はちまる</span></div>'
-    '<div class="banner-sub-title">八王子市 防災・避難ナビゲーション（アプリ内完結型）</div>'
+    '<div class="banner-sub-title">八王子市 防災・避難ナビゲーション</div>'
     '<div>' + SVG_TOWN_LANDSCAPE + '</div>'
     '</div>'
 )
@@ -501,7 +485,7 @@ alert_card_html = (
 st.markdown(alert_card_html, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 7. 自動GPS測位 ＋ 地図タップ地点指定 ＋ 任意検索（住所不要）
+# 7. 自動GPS測位 ＋ 地図タップ地点指定 ＋ 任意検索
 # ---------------------------------------------------------
 if "manual_pin" not in st.session_state:
     st.session_state.manual_pin = None
@@ -521,12 +505,10 @@ if user_address_input.strip():
 current_coords = None
 display_address = ""
 
-# 優先度1: ユーザーが地図上をタップして指定した地点
 if st.session_state.manual_pin is not None and not user_address_input.strip():
     current_coords = st.session_state.manual_pin
     display_address = f"地図上で指定した出発地点（緯度 {current_coords[0]:.4f}, 経度 {current_coords[1]:.4f}）"
 
-# 優先度2: 自動GPS測位（住所がわからない場合でもそのまま現在地を表示）
 if current_coords is None and not user_address_input.strip() and HAS_GPS_LIB:
     try:
         location = get_geolocation()
@@ -538,7 +520,6 @@ if current_coords is None and not user_address_input.strip() and HAS_GPS_LIB:
     except Exception:
         pass
 
-# 優先度3: テキスト入力または初期地点
 if current_coords is None:
     if user_address_input.strip():
         display_address = user_address_input.strip()
@@ -579,7 +560,7 @@ three_routes = get_three_evacuation_routes(
 
 with col_sel2:
     route_choice_idx = st.selectbox(
-        "状況に合わせて優先ルートを強調表示",
+        "強調表示するルートを選択",
         [0, 1, 2],
         format_func=lambda idx: f"{three_routes[idx]['name']}（約{three_routes[idx]['min']}分）"
     )
@@ -619,31 +600,48 @@ with col2:
         '<div class="yellow-card">'
         '<div class="yellow-card-title">3つの道から安全に選ぶコツ</div>'
         '<div class="yellow-card-item"><b>冠水・川沿い回避</b>：低い道が水没していたら②か③の迂回ルートへ！</div>'
-        '<div class="yellow-card-item"><b>ブロック塀・電線</b>：地震直後は狭い路地を避け、広い道側のルートを選択。</div>'
-        '<div class="yellow-card-item"><b>地図タップ変更</b>：下の地図をタップすると、その場所からの3ルートを再計算します。</div>'
+        '<div class="yellow-card-item"><b>単独ルート拡大</b>：線が重なって見づらい時は下のスイッチで1本だけ表示できます。</div>'
+        '<div class="yellow-card-item"><b>地図タップ変更</b>：地図をタップするとその地点から3ルートを再計算します。</div>'
         '</div>'
     )
     st.markdown(yellow_html, unsafe_allow_html=True)
 
-st.markdown('<div class="map-title-bar">🗺️ アプリ内完結 避難ルートマップ（3経路同時表示）</div>', unsafe_allow_html=True)
+st.markdown('<div class="map-title-bar">🗺️ 避難ルートマップ</div>', unsafe_allow_html=True)
+
+view_mode = st.radio(
+    "地図のルート表示方法",
+    ["3ルートすべて同時表示（比較用）", "選択中の1ルートのみくっきり表示（移動用）"],
+    horizontal=True
+)
 
 legend_html = (
     '<div class="map-legend-bar">'
-    '<span>🔴 出発地点（現在地）</span>'
-    '<span>🟢 選択中の避難所</span>'
-    '<span style="color:#10B981;">━━ ルート① 最短メイン</span>'
-    '<span style="color:#3B82F6;">━━ ルート② 北・西側迂回</span>'
-    '<span style="color:#F97316;">┅┅ ルート③ 南・東側迂回</span>'
+    '<span>🔴 出発地点</span>'
+    '<span>🟢 避難所</span>'
+    '<span><i class="legend-line-1"></i>ルート① 最短</span>'
+    '<span><i class="legend-line-2"></i>ルート② 迂回A</span>'
+    '<span><i class="legend-line-3"></i>ルート③ 迂回B</span>'
     '</div>'
 )
 st.markdown(legend_html, unsafe_allow_html=True)
 
-# 地図の中心を現在地と避難所の中間に自動フィット
 center_lat = (current_coords[0] + target_shelter["coords"][0]) / 2.0
 center_lon = (current_coords[1] + target_shelter["coords"][1]) / 2.0
-m = folium.Map(location=[center_lat, center_lon], zoom_start=14, tiles="OpenStreetMap")
+m = folium.Map(
+    location=[center_lat, center_lon],
+    zoom_start=15,
+    tiles="CartoDB Voyager"
+)
 
-# 出発地点マーカー
+target_routes_for_bounds = [three_routes[route_choice_idx]] if "1ルートのみ" in view_mode else three_routes
+all_lats = [current_coords[0], target_shelter["coords"][0]]
+all_lons = [current_coords[1], target_shelter["coords"][1]]
+for r in target_routes_for_bounds:
+    for pt in r["line"]:
+        all_lats.append(pt[0])
+        all_lons.append(pt[1])
+m.fit_bounds([[min(all_lats), min(all_lons)], [max(all_lats), max(all_lons)]], padding=(40, 40))
+
 folium.Marker(
     location=current_coords,
     popup="出発地点: " + display_address,
@@ -651,30 +649,47 @@ folium.Marker(
     icon=folium.Icon(color="red", icon="info-sign")
 ).add_to(m)
 
-# 上位3避難所マーカー
 for idx, s in enumerate(top3_shelters):
     is_selected = (idx == selected_shelter_idx)
     folium.Marker(
         location=s["coords"],
         popup=f"候補{idx+1}: {s['name']} ({s['cap']})",
         tooltip=f"候補{idx+1}: {s['name']}",
-        icon=folium.Icon(color="green" if is_selected else "cadetblue", icon="home")
+        icon=folium.Icon(color="green" if is_selected else "gray", icon="home")
     ).add_to(m)
 
-# 3つの避難ルートをすべて地図上に描画（選択中のルートを太く強調）
-for idx, r in enumerate(three_routes):
+if "1ルートのみ" in view_mode:
+    indices_to_draw = [route_choice_idx]
+else:
+    indices_to_draw = [i for i in range(3) if i != route_choice_idx] + [route_choice_idx]
+
+for idx in indices_to_draw:
+    r = three_routes[idx]
     is_highlighted = (idx == route_choice_idx)
+
+    folium.PolyLine(
+        locations=r["line"],
+        color="#0F172A",
+        weight=16 if is_highlighted else 9,
+        opacity=0.95 if is_highlighted else 0.55
+    ).add_to(m)
+
+    folium.PolyLine(
+        locations=r["line"],
+        color="#FFFFFF",
+        weight=12 if is_highlighted else 6.5,
+        opacity=1.0 if is_highlighted else 0.75
+    ).add_to(m)
+
     folium.PolyLine(
         locations=r["line"],
         color=r["color"],
         weight=8 if is_highlighted else 4,
-        opacity=0.95 if is_highlighted else 0.55,
-        dash_array=r["dash"],
-        tooltip=f"{r['name']}（約{round(r['dist'], 1)}km / 約{r['min']}分）"
+        opacity=1.0 if is_highlighted else 0.85,
+        tooltip=f"【{r['name']}】約{round(r['dist'], 1)}km / 約{r['min']}分"
     ).add_to(m)
 
-# 地図タップ座標のみ取得（ズーム・ドラッグでは再実行しない軽量設定）
-map_data = st_folium(m, width="100%", height=460, returned_objects=["last_clicked"])
+map_data = st_folium(m, width="100%", height=480, returned_objects=["last_clicked"])
 
 if map_data and map_data.get("last_clicked"):
     clicked_lat = map_data["last_clicked"]["lat"]
@@ -697,7 +712,7 @@ contact_html = (
     '<div class="contact-item-box"><div class="contact-item-label">八王子市役所 (代表)</div><div style="font-weight:900; font-size:1.0rem; color:#334155; margin-top:4px;">042-620-7111</div></div>'
     '</div></div>'
     '<div class="footer-note">'
-    '※本サービスは気象庁防災情報JSONおよびオープンデータをもとに、外部アプリへ遷移せず避難経路を確認できる防災支援システムです。<br>'
+    '※本サービスは気象庁防災情報JSONおよびオープンデータをもとに避難経路を確認できる防災支援システムです。<br>'
     '※実際の災害発生時は、周囲の浸水・倒壊状況および八王子市公式防災情報の指示に従って安全に行動してください。'
     '</div>'
 )
