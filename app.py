@@ -410,7 +410,7 @@ mode_opt = st.sidebar.radio(
     index=0
 )
 
-# 気象庁リアルタイムAPIを常時取得（訓練・テスト表示設定を削除）
+# 気象庁リアルタイムAPIを常時取得
 selected_lvl_key, active_warnings_list = fetch_hachioji_jma_warning()
 
 st.sidebar.markdown('<div style="margin-top: 24px;">' + SVG_TOWN_LANDSCAPE + '</div>', unsafe_allow_html=True)
@@ -608,15 +608,22 @@ legend_html = (
 )
 st.markdown(legend_html, unsafe_allow_html=True)
 
-# APIキー不要・日本国内の道路が最もくっきり見える「国土地理院（淡色地図）」を使用
+# 本家Googleマップと全く同じ最新配色・高解像度タイル（APIキー不要）
 center_lat = (current_coords[0] + target_shelter["coords"][0]) / 2.0
 center_lon = (current_coords[1] + target_shelter["coords"][1]) / 2.0
 m = folium.Map(
     location=[center_lat, center_lon],
     zoom_start=15,
-    tiles="https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
-    attr="国土地理院"
+    tiles=None
 )
+
+folium.TileLayer(
+    tiles="https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=ja&scale=2",
+    attr="Google Maps",
+    name="Googleマップ",
+    subdomains=["0", "1", "2", "3"],
+    max_zoom=20
+).add_to(m)
 
 target_routes_for_bounds = [three_routes[route_choice_idx]] if "1ルートのみ" in view_mode else three_routes
 all_lats = [current_coords[0], target_shelter["coords"][0]]
@@ -697,7 +704,7 @@ contact_html = (
     '<div class="contact-item-box"><div class="contact-item-label">八王子市役所 (代表)</div><div style="font-weight:900; font-size:1.0rem; color:#334155; margin-top:4px;">042-620-7111</div></div>'
     '</div></div>'
     '<div class="footer-note">'
-    '※本サービスは気象庁防災情報JSONおよび国土地理院データをもとに避難経路を確認できる防災支援システムです。<br>'
+    '※本サービスは気象庁防災情報JSONおよび地図データをもとに避難経路を確認できる防災支援システムです。<br>'
     '※実際の災害発生時は、周囲の浸水・倒壊状況および八王子市公式防災情報の指示に従って安全に行動してください。'
     '</div>'
 )
